@@ -20,7 +20,7 @@ const Header = () => {
       {/* Blue background behind header */}
       <div className="fixed top-0 left-0 w-full h-16 z-10">
         {/* Header */}
-        <div className="bg-white/90 shadow-md">
+        <div className="bg-white shadow-md">
         <section className="container mx-auto">
           <header className="flex items-center justify-between py-2.5 relative">
             {/* Left Section: Logo & Small screen icons */}

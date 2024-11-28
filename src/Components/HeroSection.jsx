@@ -5,7 +5,7 @@ import image2 from "../assets/Images/slide2.png";
 const HeroSection = () => {
   return (
     <section className="">
-      <div className="max-h-full bg-gradient-to-b from-white to-gray-100 flex items-center justify-center p-6">
+      <div className="max-h-full bg-gradient-to-b from-white to-gray-100 flex items-center justify-center pb-20 p-6">
         <div className="flex flex-col lg:flex-row max-w-7xl items-center lg:items-start">
           <div className="lg:w-[50%] space-y-8 mt-20">
             <h1 className="font-black tracking-[12px] text-4xl text-center lg:text-6xl text-transparent text-stroke bg-clip-text bg-gradient-to-tl from-[#FF5E00] to-[#FF9D00]">
