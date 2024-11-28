@@ -70,7 +70,7 @@ const PricingWithMenu = () => {
   const [selectedPlan, setSelectedPlan] = useState(pricingPlans[2]);
 
   return (
-    <section className="container mx-auto py-20">
+    <section className="container mx-auto pt-20">
       <h1 className="text-center text-[#2d2624] lg:text-[48px] text-[32px] font-black lg:leading-[60px] leading-10">
         Tiered pricing with <br /> bulk discounts
       </h1>
