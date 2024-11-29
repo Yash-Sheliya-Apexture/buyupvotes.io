@@ -149,7 +149,7 @@ const Header = () => {
 
                   {/* Dashboard Button */}
                   <button className="lg:px-6 lg:py-2 px-4 py-1 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
-                    Dashboard
+                    Sign-In
                   </button>
                 </div>
               </div>
