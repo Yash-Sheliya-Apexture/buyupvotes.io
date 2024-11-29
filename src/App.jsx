@@ -1,12 +1,20 @@
 import React from "react";
-import Header from "./Components/Header";
-import HeroSection from "./Components/HeroSection";
+import Home_Page from "./Pages/Home_Page";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from "react-router-dom";
 
 const App = () => {
   return (
     <div>
-      <Header />
-      <HeroSection />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home_Page />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
