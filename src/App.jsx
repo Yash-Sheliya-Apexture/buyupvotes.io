@@ -4,15 +4,17 @@ import HeroSection from "./Components/HeroSection";
 import Pricing from "./Components/Pricing";
 import Currency from "./Components/Currency";
 import Contact from "./Components/Contact";
+import Footer from "./Components/Footer";
 
 const App = () => {
   return (
-    <div>
+    <div> 
       <Header />
       <HeroSection />
       <Pricing />
       <Currency />
       <Contact />
+      <Footer />
     </div>
   );
 };
