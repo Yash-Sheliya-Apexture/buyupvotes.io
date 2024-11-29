@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/Images/Logo.png"; // Replace with your logo image path
 import Moonicon from "../assets/Images/moon.svg";
 import Uparrow from "../assets/Images/logo-mini.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
@@ -47,11 +48,14 @@ const Header = () => {
                 </button>
 
                 {/* Logo for larger screens */}
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className="h-6 md:h-10 hidden md:block"
-                />
+
+                <Link to="/">
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    className="h-6 md:h-10 hidden md:block"
+                  />
+                </Link>
               </div>
 
               {/* Combined Navigation Links and Right Section */}
@@ -59,13 +63,13 @@ const Header = () => {
                 {/* Navigation Links */}
                 <nav className="hidden md:flex space-x-10 h-full flex-grow cursor-pointer">
                   <a
-                    href="#pricing"
+                    href="#Pricing"
                     className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
                   >
                     Pricing
                   </a>
                   <a
-                    href="#faq"
+                    href="#FaQ"
                     className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
                   >
                     FAQ
@@ -77,7 +81,7 @@ const Header = () => {
                     Blog
                   </a>
                   <a
-                    href="#contact"
+                    href="#Footer"
                     className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
                   >
                     Contact
@@ -153,9 +157,10 @@ const Header = () => {
 
             {/* Sidebar for mobile view */}
             <div
-              className={`fixed top-0 left-0 w-64 bg-white h-full shadow-lg transition-transform duration-300 ease-in-out ${
-                showMenu ? "translate-x-0" : "-translate-x-full z-10"
+              className={`fixed top-0 left-0 w-64 bg-white h-full shadow-xl transition-transform duration-300 ease-in-out ${
+                showMenu ? "translate-x-0" : "-translate-x-full"
               }`}
+              style={{ zIndex: 1000 }} // Ensure this is above the blur layer
             >
               <div className="flex justify-end p-4 relative">
                 <button onClick={toggleMenu}>
@@ -295,7 +300,8 @@ const Header = () => {
             {/* Background blur when menu is open */}
             {showMenu && (
               <div
-                className="fixed inset-0 bg- bg-opacity-60 backdrop-blur-[1px] -z-10"
+                className="fixed inset-0 bg-opacity-100 backdrop-blur-[2px]"
+                style={{ zIndex: 999 }} // Ensure this is below the menu but above other content
                 onClick={toggleMenu}
               ></div>
             )}

@@ -1,10 +1,20 @@
 import React from "react";
-import Header from "./Components/Header";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from "react-router-dom";
+import Home_Page from "./Pages/Home_Page";
 
 const App = () => {
   return (
     <div>
-      <Header />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home_Page />} />
+        </Routes> 
+      </BrowserRouter>
     </div>
   );
 };
