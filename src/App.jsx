@@ -1,20 +1,17 @@
 import React from "react";
-import Header from "./Components/Header";
-import HeroSection from "./Components/HeroSection";
-import Pricing from "./Components/Pricing";
-import Currency from "./Components/Currency";
-import Contact from "./Components/Contact";
-import Footer from "./Components/Footer";
+import Home_Page from "./Pages/Home_Page";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Sign_In from "./Pages/Sign_In";
 
 const App = () => {
   return (
-    <div> 
-      <Header />
-      <HeroSection />
-      <Pricing />
-      <Currency />
-      <Contact />
-      <Footer />
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home_Page />} />
+          <Route path="/signin" element={<Sign_In />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

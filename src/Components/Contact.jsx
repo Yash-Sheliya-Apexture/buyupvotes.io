@@ -1,6 +1,7 @@
 import React from "react";
 import Rocket from "../assets/Images/rocket.webp";
 import { FaUpRightFromSquare } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 const Contact = () => {
   return (
@@ -23,7 +24,7 @@ const Contact = () => {
       </div>
 
       {/* Contact Form */}
-      <section className="lg:container mx-auto xs:p-4" >
+      <section className="lg:container mx-auto xs:p-4" id="FaQ">
         <div className="bg-[#FF4C00] my-10 rounded-[30px] pb-6">
           <div className="flex flex-wrap items-center lg:flex-nowrap">
             {/* Left Side: Image */}
@@ -42,9 +43,12 @@ const Contact = () => {
               </h1>
               <div className="mt-8 flex flex-col lg:flex-row items-center lg:items-start space-y-4 md:space-y-0 md:space-x-4">
                 {/* Sign In Button */}
-                <button className="bg-white text-[#FF5700] font-bold px-20 py-1.5 rounded-full transition-all hover:bg-[#454F5B] hover:text-white">
+                <NavLink
+                  to="signin"
+                  className="bg-white text-[#FF5700] font-bold px-20 py-1.5 rounded-full transition-all hover:bg-[#454F5B] hover:text-white"
+                >
                   Sign in
-                </button>
+                </NavLink>
 
                 {/* Sign Up Button */}
                 <button className="text-white font-bold lg:px-20 px-16 py-1.5 rounded-full border-2 border-transparent flex items-center transition-all hover:border-white">
