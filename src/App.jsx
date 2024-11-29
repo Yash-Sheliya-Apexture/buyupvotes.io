@@ -3,7 +3,7 @@ import Header from "./Components/Header";
 import HeroSection from "./Components/HeroSection";
 import Pricing from "./Components/Pricing";
 import Currency from "./Components/Currency";
-import Content from "./Components/Content";
+import Contact from "./Components/Contact";
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
       <HeroSection />
       <Pricing />
       <Currency />
-      <Content />
+      <Contact />
     </div>
   );
 };
