@@ -6,7 +6,7 @@ const Currency = () => {
   const [selectedTab, setSelectedTab] = useState("creditCard");
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto mt-10">
       {/* Tabs Section */}
       <div className="flex justify-center space-x-8 pb-4">
         <button
@@ -50,12 +50,12 @@ const Currency = () => {
       >
         {/* Credit Card Content */}
         <div className="mt-4 text-center flex justify-center items-center">
-          <p className="text-[#403633] lg:text-[20px] max-w-[350px]">
+          <p className="text-[#403633] lg:text-[20px] max-w-[400px]">
             Enter your{" "}
             <span className="text-[#FF5700] font-medium leading-10">
               deposit amount
             </span>{" "}
-            using to many upvotes it will convert into:
+            using to Credit-Card many upvotes it will convert into:
           </p>
         </div>
       </div>
@@ -72,12 +72,12 @@ const Currency = () => {
       >
         {/* Cryptocurrency Content */}
         <div className="mt-4 text-center flex justify-center items-center">
-          <p className="text-[#403633] lg:text-[20px] max-w-[350px]">
+          <p className="text-[#403633] lg:text-[20px] max-w-[400px]">
             Enter your{" "}
             <span className="text-[#FF5700] font-medium leading-10">
               deposit amount
             </span>{" "}
-            using to calculate how many upvotes it will convert into:
+            using to Cryptocurrency upvotes it will convert into:
           </p>
         </div>
       </div>
@@ -97,6 +97,9 @@ const Currency = () => {
         <button className="px-4 py-2 bg-transparent border-2 border-[#FF5700] text-[#FF5700] font-bold rounded-r-full transition-all">
           Calculate
         </button>
+      </div>
+      <div className="flex justify-center">
+        <hr className="mt-10 w-[80%]" />
       </div>
     </div>
   );
