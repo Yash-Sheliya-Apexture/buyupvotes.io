@@ -1,18 +1,20 @@
 import React from "react";
-import Header from "./Components/Header";
-import HeroSection from "./Components/HeroSection";
-import Pricing from "./Components/Pricing";
-import Currency from "./Components/Currency";
-import Contact from "./Components/Contact";
+import Home_Page from "./Pages/Home_Page";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from "react-router-dom";
 
 const App = () => {
   return (
     <div>
-      <Header />
-      <HeroSection />
-      <Pricing />
-      <Currency />
-      <Contact />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home_Page />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
