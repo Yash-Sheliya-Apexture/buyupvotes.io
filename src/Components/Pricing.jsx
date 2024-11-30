@@ -70,7 +70,7 @@ const PricingWithMenu = () => {
   const [selectedPlan, setSelectedPlan] = useState(pricingPlans[2]);
 
   return (
-    <section className="container mx-auto pt-20">
+    <section className="container mx-auto pt-20" id="Pricing">
       <h1 className="text-center text-[#2d2624] lg:text-[48px] text-[32px] font-black lg:leading-[60px] leading-10">
         Tiered pricing with <br /> bulk discounts
       </h1>
@@ -124,6 +124,7 @@ const PricingWithMenu = () => {
       </div>
 
       {/* Tablet/Small Screen Layout */}
+      {/* Tablet/Small Screen Layout */}
       <div className="block lg:hidden">
         <div className="flex overflow-x-auto md:space-x-12 space-x-4 pb-8 justify-center items-center">
           {pricingPlans.map((plan, index) => (
@@ -144,7 +145,13 @@ const PricingWithMenu = () => {
         </div>
 
         <div className="flex justify-center items-center">
-          <div className="border border-gray-300 rounded-[26px] p-6 bg-white shadow-lg md:w-[60%] w-full">
+          <div
+            className={`border-4 border-[#FF5700] rounded-[26px] p-6 bg-white shadow-lg md:w-[60%] w-full ${
+              selectedPlan.title === "Standard"
+                ? "border-2 border-[#FF5700]"
+                : ""
+            }`}
+          >
             <h3 className="text-[14px] font-bold text-[#919EAB] mb-3">
               {selectedPlan.title}
             </h3>
