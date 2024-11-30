@@ -78,7 +78,7 @@ const Sign_Up = () => {
 
         {/* Content Section */}
         <div className="flex justify-center items-center p-4">
-          <div className="lg:w-1/3 h-auto bg-white rounded-[25px] lg:p-6 p-4 pb-10">
+          <div className="lg:w-[30%] h-auto bg-white rounded-[25px] lg:p-6 p-4 pb-10">
             <h1 className="lg:text-[24px] text-[20px] font-bold text-center mb-4 text-[#2D2624]">
               Welcome to BuyUpvotes!
             </h1>
