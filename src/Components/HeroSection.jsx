@@ -1,13 +1,15 @@
 import React from "react";
 import image1 from "../assets/Images/slide13.png";
 import image2 from "../assets/Images/slide2.png";
+import { FaUpRightFromSquare } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 const HeroSection = () => {
   return (
     <section className="">
-      <div className="max-h-full bg-gradient-to-b from-white to-gray-100 flex items-center justify-center lg:pb-0 pb-20 p-6">
+      <div className="h-screen bg-gradient-to-b from-white to-gray-100 flex items-center justify-center lg:pb-0 pb-60 p-6">
         <div className="flex flex-col lg:flex-row max-w-7xl items-center lg:items-start">
-          <div className="lg:w-[50%] space-y-8 mt-20">
+          <div className="lg:w-[50%] space-y-8 mt-56 lg:mt-28">
             <h1 className="font-black tracking-[12px] text-4xl text-center lg:text-6xl text-transparent text-stroke bg-clip-text bg-gradient-to-tl from-[#FF5E00] to-[#FF9D00]">
               Buy Reddit Upvotes
             </h1>
@@ -25,14 +27,21 @@ const HeroSection = () => {
                 Take control of comments on your posts by upvotes and downvotes
               </p>
             </div>
-            <div className="flex justify-center items-center pt-5">
-              <button className="px-8 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
+            <div className="flex flex-col items-center justify-center pt-5 space-y-1">
+              {/* <button className="px-8 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
                 Dashboard
-              </button>
+              </button> */}
+              <NavLink to="/signin" className="px-20 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
+                Sign-In
+              </NavLink>
+              <NavLink to="/signup" className="text-[#2d2624] font-bold rounded-full flex items-center transition-all hover:border-white">
+                Sign up
+                <FaUpRightFromSquare className="ml-1" />
+              </NavLink>
             </div>
           </div>
 
-          <div className="lg:w-[60%] lg:mt-0 relative hidden lg:block">
+          <div className="lg:w-[50%] lg:mt-0 relative hidden lg:block">
             <div className="flex flex-row space-y-6">
               <div className="flex mt-10">
                 <img
