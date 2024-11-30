@@ -61,6 +61,15 @@ body {
   mask: url(.\assets\Images\moon.svg) center center / contain no-repeat;
 }
 
+/* Background Image */
+
+.background-image {
+  background-image: url(./assets/Images/background..jpg);
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
 @media (max-width: 992px) {
   .logo {
     display: none;

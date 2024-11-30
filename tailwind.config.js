@@ -9,6 +9,9 @@ export default {
       screens: {
         xs: { min: "320px" },
       },
+      width : {
+        half : "30%",
+      }
     },
   },
   plugins: [],
