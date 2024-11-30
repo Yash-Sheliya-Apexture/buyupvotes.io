@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/Images/Logo.png"; // Replace with your logo image path
-import Moonicon from "../assets/Images/moon.svg";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
@@ -22,76 +21,12 @@ const Header = () => {
       <div className="fixed top-0 left-0 w-full h-16 z-10">
         {/* Header */}
         <div className="bg-white shadow-md">
-        <section className="container mx-auto">
-          <header className="flex items-center justify-between py-2.5 relative">
-            {/* Left Section: Logo & Small screen icons */}
-            <div className="flex items-center space-x-4">
-              {/* Mobile Menu Button */}
-              <button className="block md:hidden" onClick={toggleMenu}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-[rgb(255,87,0)]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                </svg>
-              </button>
-              <button className="block md:hidden">
-                <img src={Uparrow} alt="upArrow" className="size-6" />
-              </button>
-
-              {/* Logo for larger screens */}
-              <img
-                src={logo}
-                alt="Logo"
-                className="h-6 md:h-10 hidden md:block"
-              />
-            </div>
-
-            {/* Combined Navigation Links and Right Section */}
-            <div className="flex items-center justify-between space-x-6 md:w-auto">
-              {/* Navigation Links */}
-              <nav className="hidden md:flex space-x-10 h-full flex-grow cursor-pointer">
-                <a
-                  href="#pricing"
-                  className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
-                >
-                  Pricing
-                </a>
-                <a
-                  href="#faq"
-                  className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
-                >
-                  FAQ
-                </a>
-                <a
-                  href="#blog"
-                  className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
-                >
-                  Blog
-                </a>
-                <a
-                  href="#contact"
-                  className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
-                >
-                  Contact
-                </a>
-              </nav>
-
-              {/* Right Section */}
-              <div className="flex items-center space-x-4 relative">
-                {/* Country Icon */}
-                <button
-                  className="relative"
-                  onClick={toggleTooltip} // Toggle tooltip on click
-                >
+          <section className="container mx-auto">
+            <header className="flex items-center justify-between py-2.5 relative">
+              {/* Left Section: Logo & Small screen icons */}
+              <div className="flex items-center space-x-4">
+                {/* Mobile Menu Button */}
+                <button className="block md:hidden" onClick={toggleMenu}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 text-[rgb(255,87,0)]"
@@ -206,15 +141,25 @@ const Header = () => {
                     </div>
                   )}
 
-                  {/* Icon */}
-                  <button className="">
-                    <img src={Moonicon} alt="Moon-Icon" className="h-8" />
+                  {/* Icon Day */}
+                  <button className="inline-flex items-center justify-center relative align-middle appearance-none rounded-full border border-[#919eab14] bg-transparent ">
+                    <span className="svg-color icon-set"></span>
                   </button>
 
                   {/* Dashboard Button */}
-                  <button className="lg:px-6 lg:py-2 px-4 py-1 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
+                  <NavLink
+                    to="/signin"
+                    className="px-4 lg:px-0 py-1 text-[rgb(255,87,0)] font-bold border lg:border-transparent border-[rgb(255,87,0)] rounded-full transition"
+                  >
                     Sign-In
-                  </button>
+                  </NavLink>
+
+                  <NavLink
+                    to="/signup"
+                    className="px-4 py-1 text-[rgb(255,87,0)] border font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition hidden lg:block"
+                  >
+                    Sign-Up
+                  </NavLink>
                 </div>
               </div>
             </header>
