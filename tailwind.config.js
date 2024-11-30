@@ -9,6 +9,9 @@ export default {
       screens: {
         xs: { min: "320px" },
       },
+      boxShadow : {
+        Sidebar : "0px 0px 20px 2px #00000036"
+      }
     },
   },
   plugins: [],

@@ -166,10 +166,10 @@ const Header = () => {
 
             {/* Sidebar for mobile view */}
             <div
-              className={`fixed top-0 left-0 w-64 bg-white h-full shadow-xl transition-transform duration-300 ease-in-out ${
+              className={`fixed top-0 left-0 w-64 bg-white h-full border-r border-[#b5b5b5] shadow-Sidebar transition-transform duration-300 ease-in-out ${
                 showMenu ? "translate-x-0" : "-translate-x-full"
               }`}
-              style={{ zIndex: 1000 }} // Ensure this is above the blur layer
+              style={{ zIndex: 1000 , }} // Ensure this is above the blur layer
             >
               <div className="flex justify-end p-4 relative">
                 <button onClick={toggleMenu}>
@@ -309,7 +309,7 @@ const Header = () => {
             {/* Background blur when menu is open */}
             {showMenu && (
               <div
-                className="fixed inset-0 bg-opacity-100 backdrop-blur-[2px]"
+                className="fixed inset-0 bg-opacity-100 backdrop-blur-[1px]"
                 style={{ zIndex: 999 }} // Ensure this is below the menu but above other content
                 onClick={toggleMenu}
               ></div>
