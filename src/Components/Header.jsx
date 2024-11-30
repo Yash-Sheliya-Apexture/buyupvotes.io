@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/Images/Logo.png"; // Replace with your logo image path
-import Moonicon from "../assets/Images/moon.svg";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
@@ -142,15 +141,25 @@ const Header = () => {
                     </div>
                   )}
 
-                  {/* Icon */}
-                  <button className="">
-                    <img src={Moonicon} alt="Moon-Icon" className="h-8" />
+                  {/* Icon Day */}
+                  <button className="inline-flex items-center justify-center relative align-middle appearance-none rounded-full border border-[#919eab14] bg-transparent ">
+                    <span className="svg-color icon-set"></span>
                   </button>
 
                   {/* Dashboard Button */}
-                  <button className="lg:px-6 lg:py-2 px-4 py-1 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
+                  <NavLink
+                    to="/signin"
+                    className="px-4 lg:px-0 py-1 text-[rgb(255,87,0)] font-bold border lg:border-transparent border-[rgb(255,87,0)] rounded-full transition"
+                  >
                     Sign-In
-                  </button>
+                  </NavLink>
+
+                  <NavLink
+                    to="/signup"
+                    className="px-4 py-1 text-[rgb(255,87,0)] border font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition hidden lg:block"
+                  >
+                    Sign-Up
+                  </NavLink>
                 </div>
               </div>
             </header>
