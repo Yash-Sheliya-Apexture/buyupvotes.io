@@ -48,6 +48,7 @@ body {
   @apply font-LatoFont;
 }
 
+
 @media (max-width: 992px) {
   .logo {
     display: none;
