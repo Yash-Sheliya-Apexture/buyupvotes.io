@@ -31,10 +31,16 @@ const HeroSection = () => {
               {/* <button className="px-8 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
                 Dashboard
               </button> */}
-              <NavLink to="/signin" className="px-20 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition">
+              <NavLink
+                to="/signin"
+                className="px-20 py-1.5 text-[rgb(255,87,0)] border border-solid font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition"
+              >
                 Sign-In
               </NavLink>
-              <NavLink to="/signup" className="text-[#2d2624] font-bold rounded-full flex items-center transition-all hover:border-white">
+              <NavLink
+                to="/signup"
+                className="text-[#2d2624] font-bold rounded-full flex items-center transition-all hover:border-white"
+              >
                 Sign up
                 <FaUpRightFromSquare className="ml-1" />
               </NavLink>

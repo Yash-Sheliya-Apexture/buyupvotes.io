@@ -8,14 +8,16 @@ import Footer from "../Components/Footer";
 
 const Home_Page = () => {
   return (
-    <React.Fragment>
-      <Header />
-      <HeroSection />
-      <Pricing />
-      <Currency />
-      <Contact />
-      <Footer />
-    </React.Fragment>
+    <div>
+      <React.Fragment>
+        <Header />
+        <HeroSection />
+        <Pricing />
+        <Currency />
+        <Contact />
+        <Footer />
+      </React.Fragment>
+    </div>
   );
 };
 
