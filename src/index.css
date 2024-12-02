@@ -38,8 +38,8 @@
   box-sizing: border-box;
   text-decoration: none;
 }
-
-/* .container {
+/* 
+.container {
   @apply max-w-7xl mx-auto px-0 py-0;
 } */
 
@@ -96,4 +96,19 @@ body {
 }
 .animate-float {
   animation: float 4s ease-in infinite;
+}
+
+/* Small Rocket animation */
+
+@keyframes Rocket {
+  0%,
+  100% {
+    transform: translateY(-1.5px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+.animate-rocket {
+  animation: Rocket 2s ease-in infinite;
 }
