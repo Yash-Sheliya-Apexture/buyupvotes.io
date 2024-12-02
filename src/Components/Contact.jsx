@@ -51,10 +51,10 @@ const Contact = () => {
                 </NavLink>
 
                 {/* Sign Up Button */}
-                <button className="text-white font-bold lg:px-20 px-16 py-1.5 rounded-full border-2 border-transparent flex items-center transition-all hover:border-white">
+                <NavLink to="signup" className="text-white font-bold lg:px-20 px-16 py-1.5 rounded-full border-2 border-transparent flex items-center transition-all hover:border-white">
                   Sign up
                   <FaUpRightFromSquare className="ml-1" />
-                </button>
+                </NavLink>
               </div>
             </div>
           </div>

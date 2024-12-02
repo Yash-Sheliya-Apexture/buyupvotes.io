@@ -243,12 +243,14 @@ const Sign_Up = () => {
               </div>
 
               {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full border border-[#FF5700] hover:bg-orange-600 hover:text-[#FFF] text-[#FF5700] font-bold py-2 transition-all ease-in duration-200 px-4 rounded-full"
-              >
-                Sign Up
-              </button>
+              <NavLink to="/dashboard">
+                <button
+                  type="submit"
+                  className="w-full border border-[#FF5700] hover:bg-orange-600 hover:text-[#FFF] text-[#FF5700] font-bold py-2 transition-all ease-in duration-200 px-4 rounded-full"
+                >
+                  Sign Up
+                </button>
+              </NavLink>
             </form>
             <p className="text-[14px] text-center font-bold text-[#2D2624] mt-6">
               By signing up, I agree to{" "}

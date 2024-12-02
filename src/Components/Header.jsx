@@ -3,7 +3,6 @@ import logo from "../assets/Images/Logo.png"; // Replace with your logo image pa
 import Uparrow from "../assets/Images/logo-mini.png";
 import { Link, NavLink } from "react-router-dom";
 
-
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const [showMenu, setShowMenu] = useState(false); // Menu toggle state for small screens
