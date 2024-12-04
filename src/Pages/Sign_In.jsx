@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/Images/logo.png";
 import google from "../assets/Images/google_logo.png";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Sign_In = () => {
   // State for form inputs and errors
@@ -49,20 +49,20 @@ const Sign_In = () => {
           {/* Left-side: Logo */}
           <div className="flex items-center">
             {/* Tailwind handles the responsive change */}
-            <NavLink to="/">
+            <Link to="/">
               <img
                 src={logo}
                 alt="Logo"
                 className="hidden lg:block lg:h-10 h-6"
               />
-            </NavLink>
-            <NavLink to="/">
+            </Link>
+            <Link to="/">
               <img
                 src={Uparrow}
                 alt="Logo Small"
                 className="block lg:hidden h-8"
               />
-            </NavLink>
+            </Link>
           </div>
 
           {/* Right-side: Need help */}
@@ -81,12 +81,12 @@ const Sign_In = () => {
             </h1>
             <p className="text-center text-sm mb-4">
               New user?{" "}
-              <NavLink
+              <Link
                 to="/signup"
                 className="text-[#FF5700] font-bold underline"
               >
                 Create an account
-              </NavLink>
+              </Link>
             </p>
             <button className="flex items-center justify-start w-full border border-gray-300 hover:border-[#2D2426] hover:bg-[#dfdcdc] rounded-full px-4 py-2.5 lg:text-[16px] text-sm font-bold text-[#2d2624] mb-4 transition-all ease-in duration-200">
               <img src={google} alt="Google Logo" className="w-8 h-8 mr-12" />

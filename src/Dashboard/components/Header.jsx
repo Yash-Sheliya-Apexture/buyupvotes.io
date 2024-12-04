@@ -51,8 +51,8 @@ const Header = () => {
 
       {/* Tooltip */}
       {showTooltip && (
-        <div className="absolute right-80  top-14 bg-[#dceff5] border border-gray-300 rounded-[10px] px-4 py-1.5 z-10">
-          <div className="flex justify-between ap-4">
+        <div className="absolute right-80  top-14 bg-blue-100 border border-gray-300 px-4 py-1.5 z-10">
+          <div className="flex justify-between gap-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -82,7 +82,7 @@ const Header = () => {
       <div className="relative">
         {/* Dropdown Button */}
         <button
-          className="px-6 py-2.5 rounded-full bg-[#FF5700] flex items-center relative focus:outline-none"
+          className="px-6 py-2.5 rounded-full bg-main-color flex items-center relative focus:outline-none"
           onClick={toggleDropdown}
         >
           <img
@@ -103,35 +103,37 @@ const Header = () => {
 
         {/* Dropdown Menu */}
         <div
-          className={`absolute top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${
+          className={`absolute top-12 right-0 w-[100%] bg-white py-2 rounded-[10px] border border-gray-border z-10 transform transition-all duration-300 ease-in-out ${
             isDropdownOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
         >
-          <ul className="text-sm text-[#2D2624]">
+          <ul className="text-xs text-sub-color">
             <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
               onClick={() => alert("Your ID :")}
             >
-              Rudra Rudrasutariya003@gmail.com
+              <h1>
+                Rudra <span>Rudrasutariya003@gmail.com</span>
+              </h1>
             </li>
             <hr className="border-t border-dashed " />
             <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
               onClick={() => alert("Home")}
             >
               Home
             </li>
             <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
               onClick={() => alert("Setting Menu")}
             >
               Settings
             </li>
             <hr className="border-t border-dashed " />
             <li
-              className="px-4 py-2 hover:bg-gray-100 text-[#FF5630] font-bold cursor-pointer"
+              className="px-4 py-2 hover:bg-gray-border text-main-color font-bold cursor-pointer"
               onClick={() => alert("Sign Out Successfully")}
             >
               Sign Out
@@ -141,6 +143,7 @@ const Header = () => {
       </div>
     </section>
     /* Header Part End */
+
   );
 };
 

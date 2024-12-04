@@ -13,9 +13,10 @@ import { MdContacts } from "react-icons/md";
 import { RiAccountBoxFill } from "react-icons/ri";
 import { GoFileDirectoryFill } from "react-icons/go";
 import { FiMenu, FiX } from "react-icons/fi";
+import { FaAngleLeft } from "react-icons/fa6";
 
 const SideBar = () => {
-  const [activeMenu, setActiveMenu] = useState("Dashboard"); // State for active menu
+  const [activeMenu, setActiveMenu] = useState("dashboard"); // State for active menu
   const [isSidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
 
   const toggleSidebar = () => {
@@ -24,16 +25,16 @@ const SideBar = () => {
 
   const menuItems = [
     {
-      id: "Dashboard",
+      id: "dashboard",
       icon: <PiSpeedometerFill />,
       label: "Dashboard",
-      link: "/",
+      link: "/dashboard",
     },
     {
       id: "Order Upvotes",
       icon: <BsBarChartFill />,
       label: "Order Upvotes",
-      link: "/products",
+      link: "/UpvoteOrder",
     },
     {
       id: "Orders",
@@ -51,7 +52,7 @@ const SideBar = () => {
       id: "Add Funds",
       icon: <HiCurrencyEuro />,
       label: "Add Funds-Princing",
-      link: "/login",
+      link: "/FundPrice",
     },
     {
       id: "Raddit Accounts",
@@ -89,10 +90,10 @@ const SideBar = () => {
   return (
     <>
       {/* Hamburger Menu for Small Screens */}
-      <div className="lg:hidden p-4 bg-[#ffffff] flex items-center">
-        <Link to="/">
+      <div className="lg:hidden p-4 bg-white flex items-center">
+        <div>
           <img src={logo} alt="Logo" className="w-10 h-10 hidden" />
-        </Link>
+        </div>
         <button onClick={toggleSidebar}>
           {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
@@ -100,25 +101,29 @@ const SideBar = () => {
 
       {/* Sidebar */}
       <section
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#ffffff] border-r-2 border-[#e5e7eb] transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r-2 border-dashed border-gray-300 transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 lg:translate-x-0 lg:static lg:block h-screen`}
       >
         <div className="flex items-center justify-between p-3">
-          <Link to="/">
+          <div>
             <img src={logo} alt="Logo" />
-          </Link>
+          </div>
         </div>
 
-        <div className="p-2">
+        <div className="absolute top-10 -right-3 p-1 border rounded-full backdrop-blur-sm lg:block hidden cursor-pointer">
+          <FaAngleLeft className="size-4 text-gray-500" />
+        </div>
+
+        <div>
           <ul className="flex flex-col space-y-2.5">
             {menuItems.map((item) => (
               <li
                 key={item.id}
                 className={`relative group rounded-base cursor-pointer ${
                   activeMenu === item.id
-                    ? "bg-[#FF570014] text-[#FF5700] font-bold" // Active menu styles
-                    : "text-[#403633] hover:bg-[rgba(240,240,240,0.6)]" // Inactive menu styles
+                    ? "bg-side-color text-main-color font-bold" // Active menu styles
+                    : "text-active hover:bg-background-active" // Inactive menu styles
                 }`}
                 onClick={() => setActiveMenu(item.id)} // Set active menu on click
               >
@@ -126,13 +131,13 @@ const SideBar = () => {
                   to={item.link}
                   className="w-full px-2.5 py-2.5 flex justify-start items-center transition-colors duration-200"
                 >
-                  <span className="mr-4 text-2xl">{item.icon}</span>
+                  <span className="mr-4 text-basic">{item.icon}</span>
                   <span className="text-small">{item.label}</span>
                 </Link>
                 <div
                   className={`absolute left-0 top-0 h-full w-1 ${
                     activeMenu === item.id
-                      ? "bg-[#FF5700] scale-y-100"
+                      ? "bg-main-color scale-y-100"
                       : "bg-transparent scale-y-0"
                   } transition-all duration-300`}
                 ></div>
@@ -140,7 +145,7 @@ const SideBar = () => {
             ))}
           </ul>
           <div className="py-2">
-            <button className="w-full p-1.5 hover:shadow-Sidebar rounded-full border border-[#FF5700]">
+            <button className="w-full p-1.5 hover:shadow-Sidebar rounded-full border border-main-color">
               Add Funds
             </button>
           </div>

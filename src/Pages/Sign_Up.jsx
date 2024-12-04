@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/Images/logo.png";
 import google from "../assets/Images/google_logo.png";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Sign_Up = () => {
   const [email, setEmail] = useState("");
@@ -54,20 +54,20 @@ const Sign_Up = () => {
         {/* Menubar */}
         <nav className="flex justify-between items-center lg:px-20 p-4">
           <div className="flex items-center">
-            <NavLink to="/">
+            <Link to="/">
               <img
                 src={logo}
                 alt="Logo"
                 className="hidden lg:block lg:h-10 h-6"
               />
-            </NavLink>
-            <NavLink to="/">
+            </Link>
+            <Link to="/">
               <img
                 src={Uparrow}
                 alt="Logo Small"
                 className="block lg:hidden h-8"
               />
-            </NavLink>
+            </Link>
           </div>
           <div>
             <a href="#" className="text-[#2D2624] font-medium hover:underline">
@@ -84,12 +84,12 @@ const Sign_Up = () => {
             </h1>
             <p className="text-center text-sm mb-4 leading-7">
               Already have an account?
-              <NavLink
+              <Link
                 to="/signin"
                 className="text-[#FF5700] font-bold underline"
               >
                 &nbsp;&nbsp;Sign in <br />
-              </NavLink>
+              </Link>
               Or register below
             </p>
             <button className="flex items-center justify-start w-full border border-gray-300 hover:border-[#2D2426] hover:bg-[#dfdcdc] rounded-full px-4 py-2.5 lg:text-[16px] text-sm font-bold text-[#2d2624] mb-4 transition-all ease-in duration-200">
@@ -243,14 +243,14 @@ const Sign_Up = () => {
               </div>
 
               {/* Submit Button */}
-              <NavLink to="/dashboard">
+              <a  >
                 <button
                   type="submit"
                   className="w-full border border-[#FF5700] hover:bg-orange-600 hover:text-[#FFF] text-[#FF5700] font-bold py-2 transition-all ease-in duration-200 px-4 rounded-full"
                 >
                   Sign Up
                 </button>
-              </NavLink>
+              </a>
             </form>
             <p className="text-[14px] text-center font-bold text-[#2D2624] mt-6">
               By signing up, I agree to{" "}

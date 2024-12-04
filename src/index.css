@@ -112,3 +112,27 @@ body {
 .animate-rocket {
   animation: Rocket 2s ease-in infinite;
 }
+
+/* Slider Css  */
+
+.swiper {
+  width: 350px;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+}
+
+.swiper-pagination-bullet {
+  background-color: #ffaa00 !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.swiper-pagination-bullet-active {
+  border: 1px solid #edc061;
+  background-color: #fff;
+}

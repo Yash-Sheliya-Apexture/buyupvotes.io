@@ -10,13 +10,13 @@ import DashboardRoutes from "./routes/DashboardRoutes";
 const App = () => {
   return (
     <div>
-    <Router>
-      {window.location.pathname.startsWith("/dashboard") ? (
-        <DashboardRoutes />
-      ) : (
-        <WebsiteRoutes />
-      )}
-    </Router>
+      <Router>
+        {window.location.pathname.startsWith("/dashboard") ? (
+          <DashboardRoutes />
+        ) : (
+          <WebsiteRoutes />
+        )}
+      </Router>
     </div>
   );
 };
