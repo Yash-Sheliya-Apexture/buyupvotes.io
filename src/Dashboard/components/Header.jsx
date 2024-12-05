@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
 import rocket from "../../assets/Images/rocket-1.png";
 import { FaAngleDown } from "react-icons/fa6";
+import background from "../../assets/Images/blue-background.png";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
@@ -108,6 +108,12 @@ const Header = () => {
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
+          style={{
+            backgroundImage: `url(${background})`, // Set your image path here
+            backgroundSize: "cover", // Ensures the image covers the entire dropdown
+            backgroundPosition: "center", // Centers the image
+            backgroundRepeat: "no-repeat", // Avoids repeating the image
+          }}
         >
           <ul className="text-xs text-sub-color">
             <li
@@ -143,7 +149,6 @@ const Header = () => {
       </div>
     </section>
     /* Header Part End */
-
   );
 };
 

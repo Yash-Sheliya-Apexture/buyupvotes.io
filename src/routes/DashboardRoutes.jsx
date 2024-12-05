@@ -7,6 +7,7 @@ import Sidebar from "../Dashboard/components/Sidebar";
 import Header from "../Dashboard/components/Header";
 import UpvoteOrder from "../Dashboard/pages/UpvoteOrder";
 import FundPricing from "../Dashboard/pages/FundPricing";
+import OrderComment from "../Dashboard/pages/OrderComment";
 
 const DashboardRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const DashboardRoutes = () => {
             <Routes>
               <Route path="/dashboard" element={<DashboardHome />} />
               <Route path="/UpvoteOrder" element={<UpvoteOrder />} />
+              <Route path="/OrderComment" element={<OrderComment />} />
               <Route path="/FundPrice" element={<FundPricing />} />
             </Routes>
           </main>

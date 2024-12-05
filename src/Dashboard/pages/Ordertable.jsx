@@ -1,48 +1,176 @@
-import React, { useState } from "react";
-import Data from "../../assets/Images/nodata.svg";
+import React, { useState, useEffect } from "react";
+import Data from "../../assets/Images/nodata.svg"; // No data icon
 import { FiSearch } from "react-icons/fi";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Ordertable = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const [tableData, setTableData] = useState([]); // state for table data
+  const [searchQuery, setSearchQuery] = useState(""); // New search state
+  const [debouncedQuery, setDebouncedQuery] = useState(""); // For debounce effect
 
   const tabs = [
     {
       label: "All",
-      count: 0,
+      count: 10,
       color: "bg-[#919EAB29] text-para-color",
       colors: "bg-black text-white",
     },
     {
       label: "Pending",
-      count: 0,
+      count: 2,
       color: "bg-[#FFAB0029] text-[#B76E00]",
       colors: "bg-[#FFAB00] text-[#212B36]",
     },
     {
       label: "In Progress",
-      count: 0,
+      count: 2,
       color: "bg-[#22C55E29] text-[#118D57]",
       colors: "bg-[#22C55E] text-white",
     },
     {
       label: "Completed",
-      count: 0,
+      count: 3,
       color: "bg-[#22C55E29] text-[#118D57]",
       colors: "bg-[#22C55E] text-white",
     },
     {
       label: "Partial",
-      count: 0,
+      count: 1,
       color: "bg-[#919EAB29] text-para-color",
       colors: "bg-sub-color text-white",
     },
     {
       label: "Canceled",
-      count: 0,
+      count: 2,
       color: "bg-[#FF563029] text-[#B71D18]",
       colors: "bg-light-orange text-white",
     },
   ];
+
+  // Sample data (You can replace it with API data)
+  const sampleData = [
+    {
+      orderNumber: "101",
+      details: "iPhone 9",
+      progress: "50%",
+      date: "2024-12-05",
+      totalVotes: 100,
+      status: "In Progress",
+    },
+    {
+      orderNumber: "102",
+      details: "Samsung Universe 9",
+      progress: "100%",
+      date: "2024-12-04",
+      totalVotes: 200,
+      status: "Completed",
+    },
+    {
+      orderNumber: "103",
+      details: "OppoF19",
+      progress: "25%",
+      date: "2024-12-03",
+      totalVotes: 50,
+      status: "Pending",
+    },
+    {
+      orderNumber: "104",
+      details: "Huawei P30",
+      progress: "0%",
+      date: "2024-12-02",
+      totalVotes: 0,
+      status: "Canceled",
+    },
+    {
+      orderNumber: "105",
+      details: "MacBook Pro",
+      progress: "75%",
+      date: "2024-12-01",
+      totalVotes: 150,
+      status: "In Progress",
+    },
+    {
+      orderNumber: "106",
+      details: "Microsoft Surface Laptop 4",
+      progress: "100%",
+      date: "2024-11-30",
+      totalVotes: 300,
+      status: "Completed",
+    },
+    {
+      orderNumber: "107",
+      details: "Infinix Book",
+      progress: "50%",
+      date: "2024-11-29",
+      totalVotes: 100,
+      status: "Partial",
+    },
+    {
+      orderNumber: "108",
+      details: "HP Pavilion 15-DK1056W",
+      progress: "0%",
+      date: "2024-11-28",
+      totalVotes: 0,
+      status: "Canceled",
+    },
+    {
+      orderNumber: "109",
+      details: "RealmeXT",
+      progress: "100%",
+      date: "2024-11-27",
+      totalVotes: 500,
+      status: "Completed",
+    },
+    {
+      orderNumber: "110",
+      details: "Google pixel 9",
+      progress: "10%",
+      date: "2024-11-26",
+      totalVotes: 20,
+      status: "Pending",
+    },
+  ];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }); // Adjust delay as needed
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Filter data based on active tab and search query
+  useEffect(() => {
+    let filteredData = sampleData;
+
+    if (activeTab !== "All") {
+      filteredData = filteredData.filter((item) => item.status === activeTab);
+    }
+
+    if (debouncedQuery) {
+      filteredData = filteredData.filter(
+        (item) =>
+          item.details.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+          item.details.toUpperCase().includes(debouncedQuery.toUpperCase()) ||
+          item.orderNumber.toLowerCase().includes(debouncedQuery.toLowerCase())
+      );
+    }
+
+    setTableData(filteredData);
+  }, [activeTab, debouncedQuery]);
+
+  // Simulating fetching data based on the tab
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+
+    // Update tableData based on active tab (just a mock for now)
+    if (tab === "All") {
+      setTableData(sampleData); // Show all data
+    } else {
+      // Filter data based on the tab
+      setTableData(sampleData.filter((item) => item.status === tab));
+    }
+  };
 
   return (
     <div className="p-6 max-h-screen">
@@ -55,7 +183,7 @@ const Ordertable = () => {
         {tabs.map((tab) => (
           <button
             key={tab.label}
-            onClick={() => setActiveTab(tab.label)}
+            onClick={() => handleTabChange(tab.label)}
             className={`relative p-3 font-bold text-sm mr-4 ${
               activeTab === tab.label
                 ? "text-main-color border-b-2 border-main-color"
@@ -88,32 +216,40 @@ const Ordertable = () => {
             className="border rounded-full hover:border-black transition-all ease-in duration-150 px-6 py-2 text-black"
           />
         </div>
+
+        {/* Search Product */}
         <div className="flex-grow relative">
           <input
             type="text"
-            placeholder="Search by name or order number..."
+            placeholder="Search Product Name or Order #..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full border rounded-full hover:border-black transition-all ease-in duration-150 py-2 px-10 text-sub-color"
           />
           <FiSearch className="absolute top-3 left-3 size-5 text-light-gray" />
         </div>
       </div>
 
-      {activeTab !== "All" && (
-        <div className="pb-2">
-          <h1 className="text-black">
-            <span className="text-sub-color font-bold"> 0 </span>Results found
-          </h1>
-        </div>
-      )}
+      {/* Order Result */}
+      <div className="py-2">
+        <h1 className="text-sub-color">
+          <span className="text-sub-color font-black">{tableData.length}</span>
+          {tableData.length === 1 ? " Result found" : " Results found"}
+          {activeTab !== "All" && (
+            <span className="text-sub-color font-normal ml-2">
+              (Filtered by <span className="font-bold">{activeTab}</span>)
+            </span>
+          )}
+        </h1>
+      </div>
 
       <div className="flex space-x-4">
         {/* Status Check Section - Show for tabs other than "All" */}
         {activeTab !== "All" && (
           <div className="mb-2 flex items-center space-x-2 border border-dashed w-48 p-1.5">
             <h1 className="text-sub-color">Status :</h1>
-            {/* Status Btn */}
             <button
-              onClick={() => setActiveTab("All")} // Set active tab to "All" on click
+              onClick={() => handleTabChange("All")} // Set active tab to "All" on click
               className="px-2 py-1 flex bg-sub-color rounded-full text-white text-[14px] hover:bg-light-gray transition-all ease-in duration-150 font-bold"
             >
               {activeTab}
@@ -169,28 +305,59 @@ const Ordertable = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-md shadow-md overflow-hidden h-screen">
+      <div className="bg-white rounded-md shadow-md overflow-hidden h-auto max-h-screen">
         <table className="w-full table-auto border-collapse">
-          <thead className="bg-gray-light text-para-color text-small font-bold">
-            <tr className="flex justify-center space-x-32 py-1 px-4">
-              <td>Order #</td>
-              <td>Details</td>
-              <td>Progress</td>
-              <td>Date</td>
-              <td>Total Votes</td>
-              <td>Status</td>
+          <thead className="bg-gray-100 text-sub-color text-xs font-medium uppercase">
+            <tr className="border-b">
+              <th className="py-3 px-4 text-left">Order #</th>
+              <th className="py-3 px-4 text-left">Details</th>
+              <th className="py-3 px-4 text-left">Progress</th>
+              <th className="py-3 px-4 text-left">Date</th>
+              <th className="py-3 px-4 text-left">Total Votes</th>
+              <th className="py-3 px-4 text-left">Status</th>
             </tr>
           </thead>
           <tbody>
-            {/* Placeholder for No Data */}
-            <tr>
-              <td colSpan="6" className="text-center text-light-gray">
-                <div className="flex flex-col items-center lg:mt-40 mt-20 ">
-                  <img src={Data} alt="Nodata Icon" className="h-40" />
-                  <p className="text-base font-bold">No Data</p>
-                </div>
-              </td>
-            </tr>
+            {tableData.length > 0 ? (
+              tableData.map((row, index) => (
+                <tr
+                  key={index}
+                  className={`border-b hover:bg-gray-100 ${
+                    index % 2 === 0 ? "bg-gray-50" : ""
+                  }`}
+                >
+                  <td className="py-3 px-4">{row.orderNumber}</td>
+                  <td className="py-3 px-4">{row.details}</td>
+                  <td className="py-3 px-4">{row.progress}</td>
+                  <td className="py-3 px-4">{row.date}</td>
+                  <td className="py-3 px-4">{row.totalVotes}</td>
+                  <td className="py-3 px-4">
+                    <span
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold tracking-wide ${
+                        row.status === "Completed"
+                          ? "bg-green-500 text-white"
+                          : row.status === "Pending"
+                          ? "bg-yellow-500 text-white"
+                          : row.status === "Canceled"
+                          ? "bg-red-500 text-white"
+                          : "bg-sky-500 text-white"
+                      }`}
+                    >
+                      {row.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center text-gray-400 py-20">
+                  <div className="flex flex-col items-center">
+                    <img src={Data} alt="No Data" className="h-40" />
+                    <p className="text-lg font-bold mt-4">No Data Available</p>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -207,37 +374,11 @@ const Ordertable = () => {
 
         <span className="text-sm text-sub-color">0-0 of 0</span>
         <div className="flex items-center gap-2">
-          <button className="">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-sub-color"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+          <button>
+            <FaChevronLeft className="size-5 text-light-gray" />
           </button>
           <button className="">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-sub-color"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <FaChevronRight className="size-5 text-light-gray" />
           </button>
         </div>
       </div>

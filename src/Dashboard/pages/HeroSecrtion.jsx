@@ -1,23 +1,24 @@
 import React from "react";
 import girl from "../../assets/Images/girl.png";
 import Slider from "./Slider";
+import { Link } from "react-router-dom";
 
 const HeroSecrtion = () => {
   return (
     <>
-      <div className="flex gap-4">
+      <div className="flex gap-6">
         <div className="flex w-2/3 h-auto bg-light-brown rounded-large py-10 px-4 relative overflow-hidden">
           <div className="p-6">
             <h2 className="text-large font-black text-dark-green mb-2 flex items-center leading-10">
               Welcome back, <br /> Rudra 👋
             </h2>
-            <p className="text-dark-green font-semibold mb-6 max-w-[300px]">
+            <p className="text-[#477677] font-semibold mb-6 max-w-[300px]">
               You have 100 upvotes remaining on your balance. Continue boosting
               your Reddit experience by placing an order!
             </p>
-            <button className="px-4 py-1 bg-main-color text-white font-bold rounded-full hover:shadow-base">
+            <Link to="/UpvoteOrder" className="px-6 py-1.5 bg-main-color text-white font-bold rounded-full">
               Order Now
-            </button>
+            </Link>
           </div>
           <div className="flex">
             <div className="absolute top-10 right-0">

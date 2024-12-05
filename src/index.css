@@ -136,3 +136,10 @@ body {
   border: 1px solid #edc061;
   background-color: #fff;
 }
+
+/* Custom scrollbar styles */
+
+.custom-scrollbar {
+  scrollbar-width: none; /* Firefox support */
+  scrollbar-color: #c1c8c9;
+}

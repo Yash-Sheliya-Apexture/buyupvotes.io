@@ -37,10 +37,10 @@ const SideBar = () => {
       link: "/UpvoteOrder",
     },
     {
-      id: "Orders",
+      id: "Orders Create",
       icon: <IoMdChatboxes />,
       label: "Order Comments",
-      link: "/orders",
+      link: "/OrderComment",
     },
     {
       id: "Order messages",
@@ -101,7 +101,7 @@ const SideBar = () => {
 
       {/* Sidebar */}
       <section
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r-2 border-dashed border-gray-300 transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-dashed border-gray-300 transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 lg:translate-x-0 lg:static lg:block h-screen`}
       >
@@ -111,8 +111,8 @@ const SideBar = () => {
           </div>
         </div>
 
-        <div className="absolute top-10 -right-3 p-1 border rounded-full backdrop-blur-sm lg:block hidden cursor-pointer">
-          <FaAngleLeft className="size-4 text-gray-500" />
+        <div className="absolute top-10 -right-2.5 p-1 border rounded-full backdrop-blur-sm lg:block hidden cursor-pointer">
+          <FaAngleLeft className="size-2.5 text-gray-500" />
         </div>
 
         <div>
