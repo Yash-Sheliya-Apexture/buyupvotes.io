@@ -20,7 +20,7 @@ const HeroSecrtion = () => {
         <div class="absolute top-10 right-20">
           <svg
             class="MuiBox-root css-uwwqev"
-            className="w-full h-full object-cover"
+            className="object-cover w-full h-full"
             viewBox="0 0 480 360"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -32,10 +32,10 @@ const HeroSecrtion = () => {
                 y1="71.822%"
                 y2="16.69%"
               >
-                <stop offset="0%" stop-color="#FF5700"></stop>
+                <stop offset="0%" stopColor="#FF5700"></stop>
                 <stop
                   offset="100%"
-                  stop-color="#FF5700"
+                  stopColor="#FF5700"
                   stop-opacity="0"
                 ></stop>
               </linearGradient>
@@ -161,8 +161,8 @@ const HeroSecrtion = () => {
                 y2="281.395"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint1_linear_1_51"
@@ -172,8 +172,8 @@ const HeroSecrtion = () => {
                 y2="169.533"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint2_linear_1_51"
@@ -183,8 +183,8 @@ const HeroSecrtion = () => {
                 y2="169.533"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint3_linear_1_51"
@@ -194,8 +194,8 @@ const HeroSecrtion = () => {
                 y2="169.533"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint4_linear_1_51"
@@ -205,8 +205,8 @@ const HeroSecrtion = () => {
                 y2="169.533"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint5_linear_1_51"
@@ -216,8 +216,8 @@ const HeroSecrtion = () => {
                 y2="104.047"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint6_linear_1_51"
@@ -227,8 +227,8 @@ const HeroSecrtion = () => {
                 y2="104.047"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
               <linearGradient
                 id="paint7_linear_1_51"
@@ -238,8 +238,8 @@ const HeroSecrtion = () => {
                 y2="104.047"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FF5700"></stop>
-                <stop offset="1" stop-color="#FF4500"></stop>
+                <stop stopColor="#FF5700"></stop>
+                <stop offset="1" stopColor="#FF4500"></stop>
               </linearGradient>
             </defs>
             <image

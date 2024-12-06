@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/Images/Logo.png"; // Replace with your logo image path
 import Uparrow from "../assets/Images/logo-mini.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const [showMenu, setShowMenu] = useState(false); // Menu toggle state for small screens
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // User login state
+
+  useEffect(() => {
+    // Check if there's a token or user info in localStorage to determine login status
+    const authToken = localStorage.getItem("authToken"); // or localStorage.getItem("user");
+    if (authToken) {
+      setIsLoggedIn(true); // If token exists, user is logged in
+    } else {
+      setIsLoggedIn(false); // If no token, user is not logged in
+    }
+  }, []);
+
 
   const toggleTooltip = () => {
     setShowTooltip((prev) => !prev); // Toggle tooltip visibility
@@ -18,7 +30,7 @@ const Header = () => {
   return (
     <>
       {/* Blue background behind header */}
-      <div className="fixed top-0 left-0 w-full h-16 z-10">
+      <div className="fixed top-0 left-0 z-10 w-full h-16">
         {/* Header */}
         <div className="bg-white shadow-md">
           <section className="container mx-auto">
@@ -52,7 +64,7 @@ const Header = () => {
                   <img
                     src={logo}
                     alt="Logo"
-                    className="h-6 md:h-10 hidden md:block"
+                    className="hidden h-6 md:h-10 md:block"
                   />
                 </Link>
               </div>
@@ -60,7 +72,7 @@ const Header = () => {
               {/* Combined Navigation Links and Right Section */}
               <div className="flex items-center justify-between space-x-6 md:w-auto">
                 {/* Navigation Links */}
-                <nav className="hidden md:flex space-x-10 h-full flex-grow cursor-pointer">
+                <nav className="flex-grow hidden h-full space-x-10 cursor-pointer md:flex">
                   <a
                     href="#Pricing"
                     className="text-[16px] text-[#2D2624] hover:opacity-50 transition-all ease-linear duration-200"
@@ -88,7 +100,7 @@ const Header = () => {
                 </nav>
 
                 {/* Right Section */}
-                <div className="flex items-center space-x-4 relative">
+                <div className="relative flex items-center space-x-4">
                   {/* Country Icon */}
                   <button
                     className="relative"
@@ -146,38 +158,51 @@ const Header = () => {
                     <span className="svg-color icon-set"></span>
                   </button>
 
-                  {/* Dashboard Button */}
-                  <NavLink
-                    to="/signin"
-                    className="px-4 lg:px-0 py-1 text-[rgb(255,87,0)] font-bold border lg:border-transparent border-[rgb(255,87,0)] rounded-full transition"
-                  >
-                    Sign-In
-                  </NavLink>
+                  <div className="relative flex items-center space-x-4">
+                    {isLoggedIn ? (
+                      // If user is logged in, show Dashboard
+                      <Link
+                        to="/dashboard"
+                        className="px-4 py-1 text-[rgb(255,87,0)] border font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition hidden lg:block"
+                      >
+                        Dashboard
+                      </Link>
+                    ) : (
+                      // If user is not logged in, show Sign-In and Sign-Up
+                      <>
+                        <Link
+                          to="/signin"
+                          className="px-4 lg:px-0 py-1 text-[rgb(255,87,0)] font-bold border lg:border-transparent border-[rgb(255,87,0)] rounded-full transition"
+                        >
+                          Sign-In
+                        </Link>
 
-                  <NavLink
-                    to="/signup"
-                    className="px-4 py-1 text-[rgb(255,87,0)] border font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition hidden lg:block"
-                  >
-                    Sign-Up
-                  </NavLink>
+                        <Link
+                          to="/signup"
+                          className="px-4 py-1 text-[rgb(255,87,0)] border font-bold border-[rgb(255,87,0)] rounded-full hover:bg-orange-500 hover:text-white transition hidden lg:block"
+                        >
+                          Sign-Up
+                        </Link>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </header>
 
             {/* Sidebar for mobile view */}
             <div
-              className={`fixed top-0 left-0 w-64 bg-white h-full border-r border-[#b5b5b5] shadow-Sidebar transition-transform duration-300 ease-in-out ${
-                showMenu ? "translate-x-0" : "-translate-x-full"
-              }`}
+              className={`fixed top-0 left-0 w-64 bg-white h-full border-r border-[#b5b5b5] shadow-Sidebar transition-transform duration-300 ease-in-out ${showMenu ? "translate-x-0" : "-translate-x-full"
+                }`}
               style={{ zIndex: 1000 }} // Ensure this is above the blur layer
             >
-              <div className="flex justify-end p-4 relative">
+              <div className="relative flex justify-end p-4">
                 <button onClick={toggleMenu}>
                   <img src={logo} alt="sidelogo" />
                 </button>
               </div>
 
-              <div className="space-y-6 p-6">
+              <div className="p-6 space-y-6">
                 <div className="flex items-center space-x-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
