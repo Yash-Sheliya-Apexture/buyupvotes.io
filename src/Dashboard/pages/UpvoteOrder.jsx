@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
-import back from "../../assets/Images/blue-background.png";
-import Ordertable from "../pages/Ordertable";
+import Ordertable from "../pages/ordertable";
+import Breadcrumb from "../components/Breadcrumb";
+import Dropdown from "../components/Dropdown"; // Import reusable dropdown
 
 const UpvoteOrder = () => {
-  // State for toggling the dropdown
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState("Service"); // Default service
+  const [selectedService, setSelectedService] = useState("");
   const [isSpeedDropdownOpen, setSpeedDropdownOpen] = useState(false);
-  const [selectedSpeed, setSelectedSpeed] = useState(""); // Default speed
-  const [link, setLink] = useState(""); // Default link
-  const [quantity, setQuantity] = useState(""); // Default quantity
+  const [selectedSpeed, setSelectedSpeed] = useState("");
+  const [link, setLink] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Validation errors
   const [errors, setErrors] = useState({
     service: "",
     speed: "",
@@ -21,22 +21,110 @@ const UpvoteOrder = () => {
     quantity: "",
   });
 
-  const validateLink = (url) => {
-    // Regular expression for validating URLs
-    const regex =
-      /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z0-9]{2,}(:[0-9]+)?(\/[^\s]*)?$/i;
-    return regex.test(url);
+  // Validation function for Reddit links
+  const validateRedditLink = (url) => {
+    const redditRegex =
+      /^(https?:\/\/)?(www\.)?(reddit\.com|old\.reddit\.com)\/[a-zA-Z0-9_/.-]+$/;
+    return redditRegex.test(url);
   };
 
   const handleLinkChange = (e) => {
     const value = e.target.value;
     setLink(value);
 
-    // Validate the link on each change
-    if (value && !validateLink(value)) {
-      setErrors((prevErrors) => ({ ...prevErrors, link: "Invalid URL" }));
+    if (value && !validateRedditLink(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        link: "Invalid Reddit link. Example: https://www.reddit.com/r/subreddit/",
+      }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, link: "" }));
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = e.target.value.trim();
+
+    if (/^\d+$/.test(value)) {
+      const numericValue = parseInt(value, 10);
+
+      if (numericValue < 5) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          quantity: "Minimum quantity for posts is 5",
+        }));
+      } else if (numericValue > 1000) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          quantity: "Maximum quantity for posts is 1000",
+        }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, quantity: "" }));
+      }
+      setQuantity(value);
+    } else if (value === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        quantity: "Quantity is required",
+      }));
+      setQuantity("");
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        quantity: "Quantity must be a valid number",
+      }));
+      setQuantity("");
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      service: selectedService ? "" : "Service is required",
+      speed: selectedSpeed ? "" : "Speed is required",
+      link: link
+        ? validateRedditLink(link)
+          ? ""
+          : "Invalid Reddit link. Example: https://www.reddit.com/r/subreddit/"
+        : "Link is required",
+      quantity:
+        quantity && /^\d+$/.test(quantity)
+          ? parseInt(quantity, 10) < 5
+            ? "Minimum quantity for posts is 5"
+            : parseInt(quantity, 10) > 1000
+            ? "Maximum quantity for posts is 1000"
+            : ""
+          : "Quantity is required",
+    };
+
+    setErrors(newErrors);
+
+    // Check if all errors are empty
+    return Object.values(newErrors).every((error) => error === "");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      // Reset form values
+      setSelectedService("");
+      setSelectedSpeed("");
+      setLink("");
+      setQuantity("");
+
+      // Reset errors
+      setErrors({
+        service: "",
+        speed: "",
+        link: "",
+        quantity: "",
+      });
+
+      // Display success message
+      setSuccessMessage("Data was submitted successfully!");
+
+      // Clear success message after a few seconds
+      setTimeout(() => setSuccessMessage(""), 2000);
     }
   };
 
@@ -58,41 +146,10 @@ const UpvoteOrder = () => {
     "Fastest (5 votes/minute)",
   ];
 
-  const validateForm = () => {
-    const newErrors = {
-      service: selectedService ? "" : "Service is required",
-      speed: selectedSpeed ? "" : "Speed is required",
-      link: link ? "" : "Link is required",
-      quantity:
-        quantity && !isNaN(quantity)
-          ? ""
-          : quantity === ""
-          ? "quantity must be a `number` type, but the final value was: `NaN` (cast from the value `''`)"
-          : "Quantity must be a number",
-    };
-    setErrors(newErrors);
-    return Object.values(newErrors).every((error) => error === "");
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Displaying alert message
-      alert("Order Submitted Successfully!");
-
-      // Resetting the form after submission
-      setSelectedService("");
-      setSelectedSpeed("");
-      setLink("");
-      setQuantity("");
-      setErrors({
-        service: "",
-        speed: "",
-        link: "",
-        quantity: "",
-      });
-    }
-  };
+  const breadcrumbs = [
+    { label: "Dashboard", link: "/dashboard" },
+    { label: "Order Upvotes" }, // No link for the current page
+  ];
 
   return (
     <>
@@ -102,14 +159,7 @@ const UpvoteOrder = () => {
             Order Upvotes
           </h1>
           <div className="flex space-x-4 items-center">
-            <Link
-              to="/dashboard"
-              className="hover:underline text-sub-color font-medium"
-            >
-              Dashboard
-            </Link>
-            <span className="size-1.5 rounded-full bg-light-gray"></span>
-            <h3 className="text-light-gray font-medium">Order Upvotes</h3>
+            <Breadcrumb items={breadcrumbs} />
           </div>
         </div>
 
@@ -119,52 +169,13 @@ const UpvoteOrder = () => {
             <div className="w-full md:w-[50%] bg-white p-6 border-gray-border shadow-md rounded-lg">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Service Dropdown */}
-                <div className="relative">
-                  <div
-                    className={`w-full border rounded-full p-2.5 ${
-                      errors.service ? "border-red-500" : "border-gray-300"
-                    } text-sub-color hover:border-black transition-all ease-in duration-150 flex justify-between items-center`}
-                    onClick={() => setDropdownOpen(!isDropdownOpen)}
-                  >
-                    <span className="text-sub-color">
-                      {selectedService || "Service"}
-                    </span>
-                    <FaAngleDown
-                      className={`text-black transition-transform duration-200 ${
-                        isDropdownOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
-                  {errors.service && (
-                    <p className="text-red-500 text-sm">{errors.service}</p>
-                  )}
-                  <ul
-                    className={`absolute top-full left-0 w-full bg-white border rounded-small shadow-md p-1 mt-1 z-10 transition-transform duration-300 transform origin-top ${
-                      isDropdownOpen
-                        ? "scale-y-100 translate-y-0"
-                        : "scale-y-0 translate-y-0 pointer-events-none"
-                    }`}
-                    style={{
-                      backgroundImage: `url(${back})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  >
-                    {services.map((service, index) => (
-                      <li
-                        key={index}
-                        onClick={() => {
-                          setSelectedService(service);
-                          setDropdownOpen(false);
-                        }}
-                        className="p-2 text-sub-color hover:bg-gray-100 rounded-medium cursor-pointer"
-                      >
-                        {service}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <Dropdown
+                  options={services}
+                  selectedValue={selectedService}
+                  onSelect={setSelectedService}
+                  placeholder="Service"
+                  error={errors.service}
+                />
 
                 {/* Link Input */}
                 <div>
@@ -188,7 +199,7 @@ const UpvoteOrder = () => {
                     type="text"
                     placeholder="Quantity"
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={handleQuantityChange}
                     className={`w-full border rounded-full p-2.5 ${
                       errors.quantity ? "border-red-500" : "border-gray-300"
                     } text-sub-color placeholder:text-sub-color hover:border-black transition-all ease-in duration-150`}
@@ -198,57 +209,28 @@ const UpvoteOrder = () => {
                   )}
                 </div>
 
-                {/* Delivery Speed Dropdown */}
-                <div className="relative">
-                  <div
-                    className={`w-full border rounded-full p-2.5 ${
-                      errors.speed ? "border-red-500" : "border-gray-300"
-                    } text-sub-color hover:border-black transition-all ease-in duration-150 flex justify-between items-center`}
-                    onClick={() => setSpeedDropdownOpen(!isSpeedDropdownOpen)}
-                  >
-                    <span>{selectedSpeed || "Select Delivery Speed"}</span>
-                    <FaAngleDown
-                      className={`text-black transition-transform duration-200 ${
-                        isSpeedDropdownOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
-                  {errors.speed && (
-                    <p className="text-red-500 text-sm">{errors.speed}</p>
-                  )}
-                  <ul
-                    className={`absolute top-full h-52 left-0 w-full bg-white border rounded-small shadow-md p-1 mt-1 z-10 transition-all duration-300 overflow-y-auto transform custom-scrollbar ${
-                      isSpeedDropdownOpen
-                        ? "scale-y-100 translate-y-0"
-                        : "scale-y-0 -translate-y-4 pointer-events-none"
-                    }`}
-                    style={{
-                      backgroundImage: `url(${back})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  >
-                    {speeds.map((speed, index) => (
-                      <li
-                        key={index}
-                        onClick={() => {
-                          setSelectedSpeed(speed);
-                          setSpeedDropdownOpen(false);
-                        }}
-                        className="p-2 text-sub-color hover:bg-gray-100 rounded-medium cursor-pointer"
-                      >
-                        {speed}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Speed Dropdown */}
+                <Dropdown
+                  options={speeds}
+                  selectedValue={selectedSpeed}
+                  onSelect={setSelectedSpeed}
+                  placeholder="Select Delivery Speed"
+                  error={errors.speed}
+                />
+
+                {/* Success Message */}
+                {successMessage && (
+                  <p className="text-green-500 text-center font-medium">
+                    {successMessage}
+                  </p>
+                )}
 
                 {/* Submit Button */}
-                <div className="flex justify-center">
+                <div className="flex justify-center space-x-4">
                   <button
                     type="submit"
-                    className="border border-main-color text-main-color px-16 py-1.5 text-[14px] rounded-full font-bold"
+                    onClick={handleSubmit}
+                    className="border border-main-color text-main-color px-14 py-2.5 hover:shadow-btnShadow transition-all duration-150 ease-in text-[14px] rounded-full font-bold"
                   >
                     Submit Order
                   </button>

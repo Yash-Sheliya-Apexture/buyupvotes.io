@@ -8,7 +8,9 @@ const Ordertable = () => {
   const [tableData, setTableData] = useState([]); // state for table data
   const [searchQuery, setSearchQuery] = useState(""); // New search state
   const [debouncedQuery, setDebouncedQuery] = useState(""); // For debounce effect
-
+  const [startDate, setStartDate] = useState(""); // Track start date
+  const [endDate, setEndDate] = useState(""); // Track end date
+  
   const tabs = [
     {
       label: "All",
@@ -156,8 +158,20 @@ const Ordertable = () => {
       );
     }
 
+    // Filter by date range
+    if (startDate) {
+      filteredData = filteredData.filter(
+        (item) => new Date(item.date) >= new Date(startDate)
+      );
+    }
+    if (endDate) {
+      filteredData = filteredData.filter(
+        (item) => new Date(item.date) <= new Date(endDate)
+      );
+    }
+
     setTableData(filteredData);
-  }, [activeTab, debouncedQuery]);
+  }, [activeTab, debouncedQuery, startDate, endDate]);
 
   // Simulating fetching data based on the tab
   const handleTabChange = (tab) => {
@@ -202,17 +216,23 @@ const Ordertable = () => {
         ))}
       </div>
 
-      {/* Filter date */}
+      {/* Filter Section */}
       <div className="flex flex-wrap items-center gap-4 py-4 border border-gray-border p-2">
+        {/* Start Date */}
         <div className="flex items-center gap-2">
           <input
             type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
             className="border rounded-full hover:border-black transition-all ease-in duration-150 px-6 py-2 text-black"
           />
         </div>
+        {/* End Date */}
         <div className="flex items-center gap-2">
           <input
             type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
             className="border rounded-full hover:border-black transition-all ease-in duration-150 px-6 py-2 text-black"
           />
         </div>

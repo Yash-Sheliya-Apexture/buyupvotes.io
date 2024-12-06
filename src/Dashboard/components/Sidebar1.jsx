@@ -28,19 +28,19 @@ const SideBar = () => {
       id: "Dashboard",
       icon: <PiSpeedometerFill />,
       label: "Dashboard",
-      link: "/",
+      link: "/dashboard",
     },
     {
       id: "Order Upvotes",
       icon: <BsBarChartFill />,
       label: "Order Upvotes",
-      link: "/products",
+      link: "/UpvoteOrder",
     },
     {
       id: "Orders",
       icon: <IoMdChatboxes />,
       label: "Order Comments",
-      link: "/orders",
+      link: "/OrderComment",
     },
     {
       id: "Order messages",
@@ -52,7 +52,7 @@ const SideBar = () => {
       id: "Add Funds",
       icon: <HiCurrencyEuro />,
       label: "Add Funds-Princing",
-      link: "/login",
+      link: "/FundPrice",
     },
     {
       id: "Raddit Accounts",
@@ -91,32 +91,30 @@ const SideBar = () => {
     <>
       {/* Sidebar */}
       <section
-        className={`fixed inset-y-0 left-0 z-50 bg-[#ffffff] border-r-2 border-[#e5e7eb] h-screen transition-all duration-300 ${
+        className={`fixed inset-y-0 left-0 z-50 bg-white border-r border-dashed border-border-color h-screen transition-all duration-300 ${
           isSidebarExpanded ? "w-64" : "w-16"
         }`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-3">
-          <Link to="/" className={`${!isSidebarExpanded && "hidden"}`}>
-            <img src={logo} alt="Logo" />
-          </Link>
+        <div className="flex items-center justify-between p-2.5">
+          <div to="/" className={`${!isSidebarExpanded && "hidden"}`}>
+            <img src={logo} alt="Logo" className="h-8" />
+          </div>
           <button
             onClick={toggleSidebar}
-            className={`p-2 rounded-full hover:bg-gray-200 ${
-              isSidebarExpanded ? "" : "ml-auto"
-            }`}
+            className={`relative${isSidebarExpanded ? "" : "ml-auto"}`}
           >
             {isSidebarExpanded ? (
-              <FaAngleLeft className="text-gray-500" />
+              <FaAngleLeft className="text-gray-500 absolute -top-2 -right-6 p-1 size-7 backdrop-blur-sm lg:block hidden cursor-pointer border rounded-full" />
             ) : (
-              <FaAngleRight className="text-gray-500" />
+              <FaAngleRight className="text-gray-500 absolute top-2.5 -right-3 p-1 size-6 backdrop-blur-sm lg:block hidden cursor-pointer border rounded-full" />
             )}
           </button>
         </div>
 
         {/* Sidebar Menu */}
-        <div className="p-1.5">
-          <ul className="flex flex-col space-y-2.5">
+        <div>
+          <ul className="flex flex-col space-y-2.5 mt-5">
             {menuItems.map((item, index) => (
               <li
                 key={item.id}
@@ -131,11 +129,18 @@ const SideBar = () => {
                   to={item.link}
                   className="w-full px-2.5 py-2.5 flex items-center transition-all duration-200"
                 >
-                  <span className="mr-4 text-2xl">{item.icon}</span>
+                  <span className="mr-4 text-large">{item.icon}</span>
                   {isSidebarExpanded && (
                     <span className="text-small">{item.label}</span>
                   )}
                 </Link>
+                <div
+                  className={`absolute left-0 top-0 h-full w-1 ${
+                    activeMenu === item.id
+                      ? "bg-main-color scale-y-100"
+                      : "bg-transparent scale-y-0"
+                  } transition-all duration-300`}
+                ></div>
               </li>
             ))}
           </ul>
@@ -152,7 +157,7 @@ const SideBar = () => {
       {/* Sidebar Hover Effect */}
       {!isSidebarExpanded && (
         <div
-          className="fixed inset-y-0 left-0 w-16 bg-[#ffffff] border-r-2 border-[#e5e7eb] h-screen hover:w-64 group transition-all duration-300"
+          className="fixed inset-y-0 left-0 w-16 bg-white border-r-2 border-[#e5e7eb] h-screen hover:w-64 group transition-all duration-300"
           onMouseEnter={() => setSidebarExpanded(true)}
           onMouseLeave={() => setSidebarExpanded(false)}
         >
@@ -171,7 +176,7 @@ const SideBar = () => {
                     to={item.link}
                     className="w-full px-2.5 py-2.5 flex items-center transition-all duration-200"
                   >
-                    <span className="mr-4 text-2xl">{item.icon}</span>
+                    <span className="mr-4 text-4xl">{item.icon}</span>
                   </Link>
                 </li>
               ))}

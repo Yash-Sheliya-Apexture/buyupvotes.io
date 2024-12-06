@@ -12,14 +12,14 @@ export default {
       boxShadow: {
         Sidebar: "0px 0px 20px 2px #00000036",
         base: "0px 2px 5px 1px #ff8700",
-        card: "rgb(145, 158, 171) 0px 0px 2px 0px",
+        btnShadow: "#FF5630 0px 0px 2px 2px",
       },
       colors: {
         "main-color": "#FF5700",
         "sub-color": "#2D2624",
         "gray-border": "#f3f4f6",
         "side-color": "#FF570014",
-        active: "#403633",
+        "active": "#403633",
         "background-active": "#f0f0f099",
         "light-brown": "#FDE6D9",
         "dark-green": "#004B50",
@@ -29,6 +29,7 @@ export default {
         "light-orange": "#FF5630",
         "gray-light": "#F4F6F8",
         "light-red": "#B71D18",
+        "border-color": "#e5e7eb",
       },
       borderWidth: {
         1.5: "1.5px",

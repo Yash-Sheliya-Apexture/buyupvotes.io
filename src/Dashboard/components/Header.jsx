@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import rocket from "../../assets/Images/rocket-1.png";
 import { FaAngleDown } from "react-icons/fa6";
 import background from "../../assets/Images/blue-background.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const [showMenu, setShowMenu] = useState(false); // Menu toggle state for small screens
+  const dropdownRef = useRef(null); // Reference to the dropdown container
 
   const toggleTooltip = () => {
     setShowTooltip((prev) => !prev); // Toggle tooltip visibility
@@ -20,6 +22,25 @@ const Header = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) // If click is outside dropdown
+      ) {
+        setIsDropdownOpen(false); // Close the dropdown
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     /* Header Part Start */
@@ -79,7 +100,7 @@ const Header = () => {
       {/* Icon Day */}
       <span className="svg-color icon-set"></span>
 
-      <div className="relative">
+      <div className="relative" ref={dropdownRef}>
         {/* Dropdown Button */}
         <button
           className="px-6 py-2.5 rounded-full bg-main-color flex items-center relative focus:outline-none"
@@ -103,16 +124,16 @@ const Header = () => {
 
         {/* Dropdown Menu */}
         <div
-          className={`absolute top-12 right-0 w-[100%] bg-white py-2 rounded-[10px] border border-gray-border z-10 transform transition-all duration-300 ease-in-out ${
+          className={`absolute top-12 right-0 w-full bg-white rounded-[10px] border cursor-pointer border-gray-border z-10 transform transition-all duration-300 ease-in-out ${
             isDropdownOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
           style={{
-            backgroundImage: `url(${background})`, // Set your image path here
-            backgroundSize: "cover", // Ensures the image covers the entire dropdown
-            backgroundPosition: "center", // Centers the image
-            backgroundRepeat: "no-repeat", // Avoids repeating the image
+            backgroundImage: `url(${background})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         >
           <ul className="text-xs text-sub-color">
@@ -124,20 +145,24 @@ const Header = () => {
                 Rudra <span>Rudrasutariya003@gmail.com</span>
               </h1>
             </li>
-            <hr className="border-t border-dashed " />
-            <li
-              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
-              onClick={() => alert("Home")}
-            >
-              Home
-            </li>
-            <li
-              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
-              onClick={() => alert("Setting Menu")}
-            >
-              Settings
-            </li>
-            <hr className="border-t border-dashed " />
+            <hr className="border-t border-dashed" />
+            <Link to="/">
+              <li
+                className="px-4 py-2 hover:bg-gray-border cursor-pointer"
+                onClick={() => alert("Home")}
+              >
+                Home
+              </li>
+            </Link>
+            <Link to="/">
+              <li
+                className="px-4 py-2 hover:bg-gray-border cursor-pointer"
+                onClick={() => alert("Setting Menu")}
+              >
+                Settings
+              </li>
+            </Link>
+            <hr className="border-t border-dashed" />
             <li
               className="px-4 py-2 hover:bg-gray-border text-main-color font-bold cursor-pointer"
               onClick={() => alert("Sign Out Successfully")}
@@ -151,5 +176,4 @@ const Header = () => {
     /* Header Part End */
   );
 };
-
 export default Header;

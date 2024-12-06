@@ -19,6 +19,7 @@ const SideBar = () => {
   const [activeMenu, setActiveMenu] = useState("dashboard"); // State for active menu
   const [isSidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
 
+
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
