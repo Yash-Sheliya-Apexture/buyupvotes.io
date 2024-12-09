@@ -46,13 +46,13 @@ const SideBar = () => {
       id: "Order messages",
       icon: <IoIosChatboxes />,
       label: "Order Direct Messages",
-      link: "/dashboard/DirectMassage",
+      link: "/dashboard/notifications",
     },
     {
       id: "Add Funds",
       icon: <HiCurrencyEuro />,
       label: "Add Funds-Princing",
-      link: "/FundPrice",
+      link: "/dashboard/FundPrice",
     },
     {
       id: "Raddit Accounts",

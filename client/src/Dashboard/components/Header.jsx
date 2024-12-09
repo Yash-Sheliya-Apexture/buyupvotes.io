@@ -3,12 +3,57 @@ import rocket from "../../assets/Images/rocket-1.png";
 import { FaAngleDown } from "react-icons/fa6";
 import background from "../../assets/Images/blue-background.png";
 import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import rocket from "../../assets/Images/rocket-1.png";
+import { FaAngleDown } from "react-icons/fa6";
+import axios from "axios"; // Import Axios
 
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const [showMenu, setShowMenu] = useState(false); // Menu toggle state for small screens
   const dropdownRef = useRef(null); // Reference to the dropdown container
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [error, setError] = useState(null); // Define error state
+  const [user, setUser] = useState(null); // User state to store the user's data
+  const [loading, setLoading] = useState(true); // Add loading state to manage loading status
 
+  const navigate = useNavigate(); // Initialize navigate hook
+
+    // Access the API URL using Vite-specific syntax
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;  // Correct way to access Vite environment variables
+
+    useEffect(() => {
+      const fetchUserData = async () => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+          try {
+            setLoading(true); // Set loading to true when starting to fetch user data
+            const response = await axios.get(`${apiUrl}/auth/user`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+    
+            if (response.status === 200) {
+              setUser(response.data);
+            } else {
+              setError("Failed to fetch user data");
+            }
+          } catch (err) {
+            setError("Error fetching user data");
+          } finally {
+            setLoading(false); // Set loading to false after fetching is done
+          }
+        } else {
+          setLoading(false); // Set loading to false if there is no token
+        }
+      };
+    
+      fetchUserData();
+    }, [apiUrl]);
+    
+    
   const toggleTooltip = () => {
     setShowTooltip((prev) => !prev); // Toggle tooltip visibility
   };
@@ -16,8 +61,6 @@ const Header = () => {
   const toggleMenu = () => {
     setShowMenu((prev) => !prev); // Toggle mobile menu
   };
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -41,15 +84,20 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  // Handle Sign Out
+  const handleSignOut = () => {
+    // Clear the authentication token and user data from localStorage
+    localStorage.removeItem("authToken");
+
+    // Redirect user to the login page after signing out
+    navigate("/signin");
+  };
 
   return (
     /* Header Part Start */
-    <section className="flex justify-end items-center lg:space-x-4 space-x-2 relative container lg:p-4 p-2">
+    <section className="container relative flex items-center justify-end p-2 space-x-2 lg:space-x-4 lg:p-4">
       {/* Country Icon */}
-      <button
-        className="relative"
-        onClick={toggleTooltip} // Toggle tooltip on click
-      >
+      <button className="relative" onClick={toggleTooltip}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
@@ -72,8 +120,8 @@ const Header = () => {
 
       {/* Tooltip */}
       {showTooltip && (
-        <div className="absolute right-80  top-14 bg-blue-100 border border-gray-300 px-4 py-1.5 z-10">
-          <div className="flex justify-between gap-4">
+        <div className="absolute right-80 top-14 bg-[#dceff5] border border-gray-300 rounded-[10px] px-4 py-1.5 z-10">
+          <div className="flex justify-between ap-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -109,63 +157,51 @@ const Header = () => {
           <img
             src={rocket}
             alt="Rocket Icon"
-            className="h-10 absolute top-0 left-0 animate-rocket"
+            className="absolute top-0 left-0 h-10 animate-rocket"
           />
-          <p className="text-white font-bold ml-6">
+          <p className="ml-6 font-bold text-white">
             Balance:{" "}
             <span className="underline underline-offset-1">100 Votes</span>
           </p>
           <FaAngleDown
-            className={`text-white ml-2 transform transition-transform ${
-              isDropdownOpen ? "rotate-180" : ""
-            }`}
+            className={`text-white ml-2 transform transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
           />
         </button>
 
         {/* Dropdown Menu */}
         <div
-          className={`absolute top-12 right-0 w-full bg-white rounded-[10px] border cursor-pointer border-gray-border z-10 transform transition-all duration-300 ease-in-out ${
-            isDropdownOpen
+          className={`absolute overflow-hidden top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${isDropdownOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
-          }`}
-          style={{
-            backgroundImage: `url(${background})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
+            }`}
         >
-          <ul className="text-xs text-sub-color">
+          <ul className="text-sm text-[#2D2624]">
+            {/* Display User Info if Available */}
+            {user ? (
+              <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+                <span>{user.firstName}</span>
+                <p>{user.email}</p>
+              </li>
+            ) : (
+              <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">User Info Unavailable</li>
+            )}
+            <hr className="border-t border-dashed " />
             <li
-              className="px-4 py-2 hover:bg-gray-border cursor-pointer"
-              onClick={() => alert("Your ID :")}
-            >
-              <h1>
-                Rudra <span>Rudrasutariya003@gmail.com</span>
-              </h1>
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+            ><Link to="/" className="block">
+              Home
+            </Link>
             </li>
-            <hr className="border-t border-dashed" />
-            <Link to="/">
-              <li
-                className="px-4 py-2 hover:bg-gray-border cursor-pointer"
-                onClick={() => alert("Home")}
-              >
-                Home
-              </li>
-            </Link>
-            <Link to="/">
-              <li
-                className="px-4 py-2 hover:bg-gray-border cursor-pointer"
-                onClick={() => alert("Setting Menu")}
-              >
-                Settings
-              </li>
-            </Link>
-            <hr className="border-t border-dashed" />
             <li
-              className="px-4 py-2 hover:bg-gray-border text-main-color font-bold cursor-pointer"
-              onClick={() => alert("Sign Out Successfully")}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              onClick={() => alert("Setting Menu")}
+            >
+              Settings
+            </li>
+            <hr className="border-t border-dashed " />
+            <li
+              className="px-4 py-2 hover:bg-gray-100 text-[#FF5630] font-bold cursor-pointer"
+              onClick={handleSignOut} // Handle sign out on click
             >
               Sign Out
             </li>

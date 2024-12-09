@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import logo from "../assets/Images/logo.png";
 import google from "../assets/Images/google_logo.png";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink ,useNavigate } from "react-router-dom";
+
+import axios from "axios"; // Import axios
 
 const Sign_In = () => {
-  // State for form inputs and errors
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Used for navigation after successful login
+
+
+  // Access the API URL using Vite-specific syntax
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;  // Correct way to access Vite environment variables
 
   // Validation function
   const validate = () => {
@@ -24,8 +31,6 @@ const Sign_In = () => {
 
     if (!password) {
       validationErrors.password = "Password is required.";
-    } else if (password.length < 6) {
-      validationErrors.password = "Password must be at least 6 characters.";
     }
 
     setErrors(validationErrors);
@@ -33,19 +38,44 @@ const Sign_In = () => {
   };
 
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form submitted:", { email, password });
+
+    if (!validate()) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${apiUrl}/auth/login`, // Use the dynamic URL here
+        {
+          email,
+          password,
+        }
+      );
+
+      // Handle successful login
+      if (response.status === 200) {
+        // Save the auth token to localStorage or a state management solution
+        localStorage.setItem("authToken", response.data.token);
+
+        // Redirect to the dashboard or protected route
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setErrors({ ...errors, general: "Login failed. Please check your credentials." });
+      console.error("Login error", error);
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <>
       {/* Main Body with Background Image */}
-      <div className="bg-cover bg-center background-image">
+      <div className="bg-center bg-cover background-image">
         {/* Menubar */}
-        <nav className="flex justify-between items-center lg:px-20 p-4">
+        <nav className="flex items-center justify-between p-4 lg:px-20">
           {/* Left-side: Logo */}
           <div className="flex items-center">
             {/* Tailwind handles the responsive change */}
@@ -53,14 +83,14 @@ const Sign_In = () => {
               <img
                 src={logo}
                 alt="Logo"
-                className="hidden lg:block lg:h-10 h-6"
+                className="hidden h-6 lg:block lg:h-10"
               />
             </Link>
             <Link to="/">
               <img
                 src={Uparrow}
                 alt="Logo Small"
-                className="block lg:hidden h-8"
+                className="block h-8 lg:hidden"
               />
             </Link>
           </div>
@@ -74,12 +104,12 @@ const Sign_In = () => {
         </nav>
 
         {/* Content Section */}
-        <div className="flex justify-center items-center p-4">
+        <div className="flex items-center justify-center p-4">
           <div className="lg:w-[30%] h-auto bg-white rounded-[25px] lg:p-6 p-4 pb-10">
             <h1 className="lg:text-[24px] text-[20px] font-bold text-center mb-4 text-[#2D2624]">
               Welcome to BuyUpvotes!
             </h1>
-            <p className="text-center text-sm mb-4">
+            <p className="mb-4 text-sm text-center">
               New user?{" "}
               <Link
                 to="/signup"
@@ -100,26 +130,24 @@ const Sign_In = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`mt-1 block w-full px-3.5 py-3 border ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                  className={`mt-1 block w-full px-3.5 py-3 border ${errors.email ? "border-red-500" : "border-gray-300"
+                    } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
                   placeholder="Email address"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.email}</p>
                 )}
               </div>
 
               {/* Password Input */}
-              <div className="mb-2 relative">
+              <div className="relative mb-2">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`mt-1 block w-full px-3.5 py-3 border ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                  className={`mt-1 block w-full px-3.5 py-3 border ${errors.password ? "border-red-500" : "border-gray-300"
+                    } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
                   placeholder="Password"
                 />
                 <button
@@ -134,7 +162,7 @@ const Sign_In = () => {
                       aria-hidden="true"
                       role="img"
                       viewBox="0 0 24 24"
-                      className="h-6 w-6"
+                      className="w-6 h-6"
                     >
                       <path
                         fill="currentColor"
@@ -166,11 +194,11 @@ const Sign_In = () => {
                   )}
                 </button>
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.password}</p>
                 )}
               </div>
 
-              <div className="flex justify-end items-center mb-6">
+              <div className="flex items-center justify-end mb-6">
                 <a href="#" className="text-sm text-[#2d2624] underline">
                   Forgot password?
                 </a>
@@ -180,8 +208,9 @@ const Sign_In = () => {
               <button
                 type="submit"
                 className="w-full border border-[#FF5700] hover:bg-orange-600 hover:text-[#FFF] text-[#FF5700] font-bold py-2 transition-all ease-in duration-200 px-4 rounded-full"
+                disabled={loading}
               >
-                Sign in
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </form>
             <p className="text-[14px] text-center font-bold text-[#2D2624] mt-6">

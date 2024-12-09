@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import logo from "../assets/Images/logo.png";
 import google from "../assets/Images/google_logo.png";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
 
 const Sign_Up = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");  // Add state for firstName
+  const [lastName, setLastName] = useState("");    // Add state for lastName
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Used for navigation after successful registration
+
+  // Access the API URL using Vite-specific syntax
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Validation Function
   const validate = () => {
@@ -35,37 +43,69 @@ const Sign_Up = () => {
       validationErrors.confirmPassword = "Passwords do not match.";
     }
 
+    if (!firstName) {
+      validationErrors.firstName = "First name is required.";  // Add validation for firstName
+    }
+
+    if (!lastName) {
+      validationErrors.lastName = "Last name is required.";    // Add validation for lastName
+    }
+
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
 
   // Form Submission Handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form submitted:", { email, password });
-      alert("Form submitted successfully!");
+
+    if (!validate()) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${apiUrl}/auth/register`,  // Use the dynamic URL here from the environment variable
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+        }
+      );
+
+      // Handle successful registration
+      if (response.status === 201) {
+        // Redirect to login page
+        navigate("/signin");
+      }
+    } catch (error) {
+      setErrors({ ...errors, general: "Registration failed. Please try again." });
+      console.error("Registration error", error);
+    } finally {
+      setLoading(false);
     }
   };
 
+
   return (
     <>
-      <div className="bg-cover bg-center background-image">
+      <div className="bg-center bg-cover background-image">
         {/* Menubar */}
-        <nav className="flex justify-between items-center lg:px-20 p-4">
+        <nav className="flex items-center justify-between p-4 lg:px-20">
           <div className="flex items-center">
             <Link to="/">
               <img
                 src={logo}
                 alt="Logo"
-                className="hidden lg:block lg:h-10 h-6"
+                className="hidden h-6 lg:block lg:h-10"
               />
             </Link>
             <Link to="/">
               <img
                 src={Uparrow}
                 alt="Logo Small"
-                className="block lg:hidden h-8"
+                className="block h-8 lg:hidden"
               />
             </Link>
           </div>
@@ -77,12 +117,12 @@ const Sign_Up = () => {
         </nav>
 
         {/* Content Section */}
-        <div className="flex justify-center items-center p-4">
+        <div className="flex items-center justify-center p-4">
           <div className="lg:w-[30%] h-auto bg-white rounded-[25px] lg:p-6 p-4 pb-10">
             <h1 className="lg:text-[24px] text-[20px] font-bold text-center mb-4 text-[#2D2624]">
               Welcome to BuyUpvotes!
             </h1>
-            <p className="text-center text-sm mb-4 leading-7">
+            <p className="mb-4 text-sm leading-7 text-center">
               Already have an account?
               <Link
                 to="/signin"
@@ -97,17 +137,45 @@ const Sign_Up = () => {
               Sign in with Google
             </button>
             <form onSubmit={handleSubmit}>
-              <div className="flex gap-4 mb-4">
-                <input
+              <div className="flex gap-4">
+                {/* <input
                   type="text"
                   placeholder="First name"
                   className="w-1/2 px-3.5 py-2.5 border rounded-full hover:border-[#2D2426] transition-all ease-in duration-200"
-                />
-                <input
+                /> */}
+                <div className="w-1/2 mb-6">
+                  <input
+                    type="text"
+                    id="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className={`mt-1 block w-full px-3.5 py-3 border ${errors.firstName ? "border-red-500" : "border-gray-300"
+                      } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                    placeholder="First name"
+                  />
+                  {errors.firstName && (
+                    <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>
+                  )}
+                </div>
+                {/* <input
                   type="text"
                   placeholder="Last name"
                   className="w-1/2 px-3.5 py-2.5 border rounded-full hover:border-[#2D2426] transition-all ease-in duration-200"
-                />
+                /> */}
+                <div className="w-1/2 mb-6">
+                  <input
+                    type="text"
+                    id="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className={`mt-1 block w-full px-3.5 py-3 border ${errors.lastName ? "border-red-500" : "border-gray-300"
+                      } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                    placeholder="Last name"
+                  />
+                  {errors.lastName && (
+                    <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>
+                  )}
+                </div>
               </div>
               {/* Email Input */}
               <div className="mb-6">
@@ -116,36 +184,34 @@ const Sign_Up = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`mt-1 block w-full px-3.5 py-3 border ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                  className={`mt-1 block w-full px-3.5 py-3 border ${errors.email ? "border-red-500" : "border-gray-300"
+                    } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
                   placeholder="Email address"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.email}</p>
                 )}
               </div>
 
-              <div className="mb-6 relative">
+              <div className="relative mb-6">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`block w-full px-3.5 py-3 border ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                  className={`block w-full px-3.5 py-3 border ${errors.password ? "border-red-500" : "border-gray-300"
+                    } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
                   placeholder="Password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-3 text-gray-600"
+                  className="absolute text-gray-600 right-4 top-3"
                 >
                   {showPassword ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                      className="h-6 w-6"
+                      className="w-6 h-6"
                     >
                       <path
                         fill="currentColor"
@@ -162,7 +228,7 @@ const Sign_Up = () => {
                       xmlnsXlink="http://www.w3.org/1999/xlink"
                       aria-hidden="true"
                       role="img"
-                      className="h-6 w-6"
+                      className="w-6 h-6"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -175,27 +241,26 @@ const Sign_Up = () => {
                   )}
                 </button>
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.password}</p>
                 )}
               </div>
 
               {/* Confirm Password Input */}
-              <div className="mb-6 relative">
+              <div className="relative mb-6">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`block w-full px-3.5 py-3 border ${
-                    errors.confirmPassword
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
+                  className={`block w-full px-3.5 py-3 border ${errors.confirmPassword
+                    ? "border-red-500"
+                    : "border-gray-300"
+                    } hover:border-[#2D2426] transition-all ease-in duration-200 rounded-full sm:text-sm`}
                   placeholder="Confirm Password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-3 text-gray-600"
+                  className="absolute text-gray-600 right-4 top-3"
                 >
                   {showConfirmPassword ? (
                     <svg
@@ -203,7 +268,7 @@ const Sign_Up = () => {
                       xmlnsXlink="http://www.w3.org/1999/xlink"
                       aria-hidden="true"
                       role="img"
-                      className="h-6 w-6"
+                      className="w-6 h-6"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -223,7 +288,7 @@ const Sign_Up = () => {
                       xmlnsXlink="http://www.w3.org/1999/xlink"
                       aria-hidden="true"
                       role="img"
-                      className="h-6 w-6"
+                      className="w-6 h-6"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -236,21 +301,25 @@ const Sign_Up = () => {
                   )}
                 </button>
                 {errors.confirmPassword && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="mt-1 text-xs text-red-500">
                     {errors.confirmPassword}
                   </p>
                 )}
               </div>
 
               {/* Submit Button */}
-              <a  >
+              <div className="w-full mb-6">
                 <button
                   type="submit"
-                  className="w-full border border-[#FF5700] hover:bg-orange-600 hover:text-[#FFF] text-[#FF5700] font-bold py-2 transition-all ease-in duration-200 px-4 rounded-full"
+                  className={`w-full py-2 rounded-full font-semibold transition-all ease-in duration-200 ${loading
+                    ? "bg-gray-400 text-white cursor-not-allowed"
+                    : "bg-[#FF5700] text-white hover:bg-[#ff6a0d]"
+                    }`}
+                  disabled={loading}
                 >
-                  Sign Up
+                  {loading ? "Signing up..." : "Sign Up"}
                 </button>
-              </a>
+              </div>
             </form>
             <p className="text-[14px] text-center font-bold text-[#2D2624] mt-6">
               By signing up, I agree to{" "}

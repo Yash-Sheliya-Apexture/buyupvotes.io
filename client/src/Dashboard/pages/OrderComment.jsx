@@ -223,7 +223,6 @@ const OrderComment = () => {
               </ul>
             </div>
           </div>
-
           <div className="flex flex-col w-[50%]">
             {/* Speed Input */}
             <div className="flex relative">
