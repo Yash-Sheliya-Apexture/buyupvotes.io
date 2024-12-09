@@ -147,20 +147,24 @@ const Dashboard_header = () => {
         </button>
 
         {/* Dropdown Menu */}
+
         <div
-          className={`absolute overflow-hidden top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${
+          className={`absolute overflow-hidden top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 bg-white rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${
             isDropdownOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
           style={{
             backgroundImage: `${skybackground}`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         >
           <ul className="text-sm text-[#2D2624]">
             {/* Display User Info if Available */}
             {user ? (
-              <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+              <li className="px-4 py-2 cursor-pointer">
                 <span>{user.firstName}</span>
                 <p>{user.email}</p>
               </li>
@@ -171,13 +175,13 @@ const Dashboard_header = () => {
               </li>
             )}
             <hr className="border-t border-dashed " />
-            <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+            <li className="px-4 py-2 cursor-pointer hover:bg-[#919eab14] rounded-full">
               <Link to="/" className="block">
                 Home
               </Link>
             </li>
             <li
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              className="px-4 py-2 cursor-pointer hover:bg-[#919eab14] rounded-full"
               onClick={() => alert("Setting Menu")}
             >
               Settings
