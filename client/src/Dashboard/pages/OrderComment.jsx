@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 import bluebackground from "../../assets/Images/cyan-blur.png";
 import Dropdown from "../components/Dropdown";
+import Breadcrumb from "../components/Breadcrumb";
 
 const OrderComment = () => {
   const [selectedNumber, setSelectedNumber] = useState(""); // For storing the selected number
@@ -84,6 +85,11 @@ const OrderComment = () => {
     setIsDropdownOpen(false);
   };
 
+  const breadcrumbs = [
+    { label: "Dashboard", link: "/dashboard" },
+    { label: "Order Comments" }, // No link for the current page
+  ];
+
   return (
     <div className="container">
       <div className="px-6">
@@ -91,14 +97,9 @@ const OrderComment = () => {
           Order Upvotes
         </h1>
         <div className="flex space-x-4 items-center">
-          <Link
-            to="/dashboard"
-            className="hover:underline text-sub-color font-medium"
-          >
-            Dashboard
-          </Link>
-          <span className="size-1.5 rounded-full bg-light-gray"></span>
-          <h3 className="text-light-gray font-medium">Order Comments</h3>
+          <div className="flex space-x-4 items-center">
+            <Breadcrumb items={breadcrumbs} />
+          </div>
         </div>
       </div>
 
@@ -222,7 +223,6 @@ const OrderComment = () => {
               </ul>
             </div>
           </div>
-    
           <div className="flex flex-col w-[50%]">
             {/* Speed Input */}
             <div className="flex relative">
