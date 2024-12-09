@@ -8,6 +8,7 @@ import Dashboard_header from "../Dashboard/components/Dashboard_header";
 import UpvoteOrder from "../Dashboard/pages/UpvoteOrder";
 import FundPricing from "../Dashboard/pages/FundPricing";
 import OrderComment from "../Dashboard/pages/OrderComment";
+import DirectMassage from "../Dashboard/pages/DirectMassage";
 
 const DashboardRoutes = () => {
   return (
@@ -21,10 +22,11 @@ const DashboardRoutes = () => {
           <Dashboard_header />
           <main className="">
             <Routes>
-              <Route path="/dashboard" element={<DashboardHome />} />
-              <Route path="/UpvoteOrder" element={<UpvoteOrder />} />
-              <Route path="/OrderComment" element={<OrderComment />} />
-              <Route path="/FundPrice" element={<FundPricing />} />
+              <Route path="/" element={<DashboardHome />} />
+              <Route path="UpvoteOrder" element={<UpvoteOrder />} />
+              <Route path="OrderComment" element={<OrderComment />} />
+              <Route path="DirectMassage" element={<DirectMassage />} />
+              <Route path="FundPrice" element={<FundPricing />} />
             </Routes>
           </main>
         </div>

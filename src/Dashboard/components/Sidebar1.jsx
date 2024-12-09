@@ -34,19 +34,19 @@ const SideBar = () => {
       id: "Order Upvotes",
       icon: <BsBarChartFill />,
       label: "Order Upvotes",
-      link: "/UpvoteOrder",
+      link: "/dashboard/UpvoteOrder",
     },
     {
       id: "Orders",
       icon: <IoMdChatboxes />,
       label: "Order Comments",
-      link: "/OrderComment",
+      link: "/dashboard/OrderComment",
     },
     {
       id: "Order messages",
       icon: <IoIosChatboxes />,
       label: "Order Direct Messages",
-      link: "/notifications",
+      link: "/dashboard/DirectMassage",
     },
     {
       id: "Add Funds",

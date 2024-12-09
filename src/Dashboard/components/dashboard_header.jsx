@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import rocket from "../../assets/Images/rocket-1.png";
 import { FaAngleDown } from "react-icons/fa6";
+import skybackground from "../../assets/Images/blue-background.png";
 // import axios from "axios"; // Import Axios
 
 const Dashboard_header = () => {
@@ -14,40 +15,39 @@ const Dashboard_header = () => {
 
   const navigate = useNavigate(); // Initialize navigate hook
 
-    // Access the API URL using Vite-specific syntax
-    const apiUrl = import.meta.env.VITE_API_BASE_URL;  // Correct way to access Vite environment variables
+  // Access the API URL using Vite-specific syntax
+  const apiUrl = import.meta.env.VITE_API_BASE_URL; // Correct way to access Vite environment variables
 
-    useEffect(() => {
-      const fetchUserData = async () => {
-        const token = localStorage.getItem("authToken");
-        if (token) {
-          try {
-            setLoading(true); // Set loading to true when starting to fetch user data
-            const response = await axios.get(`${apiUrl}/auth/user`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-    
-            if (response.status === 200) {
-              setUser(response.data);
-            } else {
-              setError("Failed to fetch user data");
-            }
-          } catch (err) {
-            setError("Error fetching user data");
-          } finally {
-            setLoading(false); // Set loading to false after fetching is done
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        try {
+          setLoading(true); // Set loading to true when starting to fetch user data
+          const response = await axios.get(`${apiUrl}/auth/user`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.status === 200) {
+            setUser(response.data);
+          } else {
+            setError("Failed to fetch user data");
           }
-        } else {
-          setLoading(false); // Set loading to false if there is no token
+        } catch (err) {
+          setError("Error fetching user data");
+        } finally {
+          setLoading(false); // Set loading to false after fetching is done
         }
-      };
-    
-      fetchUserData();
-    }, [apiUrl]);
-    
-    
+      } else {
+        setLoading(false); // Set loading to false if there is no token
+      }
+    };
+
+    fetchUserData();
+  }, [apiUrl]);
+
   const toggleTooltip = () => {
     setShowTooltip((prev) => !prev); // Toggle tooltip visibility
   };
@@ -140,16 +140,22 @@ const Dashboard_header = () => {
             <span className="underline underline-offset-1">100 Votes</span>
           </p>
           <FaAngleDown
-            className={`text-white ml-2 transform transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+            className={`text-white ml-2 transform transition-transform ${
+              isDropdownOpen ? "rotate-180" : ""
+            }`}
           />
         </button>
 
         {/* Dropdown Menu */}
         <div
-          className={`absolute overflow-hidden top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${isDropdownOpen
+          className={`absolute overflow-hidden top-12 right-0 w-[100%] bg-gradient-to-t from-pink-100/50 rounded-[12px] border border-gray-200 z-10 transform transition-all duration-300 ease-in-out ${
+            isDropdownOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
-            }`}
+          }`}
+          style={{
+            backgroundImage: `${skybackground}`,
+          }}
         >
           <ul className="text-sm text-[#2D2624]">
             {/* Display User Info if Available */}
@@ -160,17 +166,15 @@ const Dashboard_header = () => {
               </li>
             ) : (
               <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                <span>firstName</span>
+                <span className="">firstName</span>
                 <p>email</p>
               </li>
-              // <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">User Info Unavailable</li>
             )}
             <hr className="border-t border-dashed " />
-            <li
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-            ><Link to="/" className="block">
-              Home
-            </Link>
+            <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+              <Link to="/" className="block">
+                Home
+              </Link>
             </li>
             <li
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
