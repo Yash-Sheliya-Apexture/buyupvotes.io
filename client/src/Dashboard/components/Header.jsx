@@ -1,3 +1,8 @@
+import React, { useState, useRef, useEffect } from "react";
+import rocket from "../../assets/Images/rocket-1.png";
+import { FaAngleDown } from "react-icons/fa6";
+import background from "../../assets/Images/blue-background.png";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import rocket from "../../assets/Images/rocket-1.png";
@@ -7,6 +12,7 @@ import axios from "axios"; // Import Axios
 const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const [showMenu, setShowMenu] = useState(false); // Menu toggle state for small screens
+  const dropdownRef = useRef(null); // Reference to the dropdown container
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [error, setError] = useState(null); // Define error state
   const [user, setUser] = useState(null); // User state to store the user's data
@@ -60,6 +66,24 @@ const Header = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) // If click is outside dropdown
+      ) {
+        setIsDropdownOpen(false); // Close the dropdown
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   // Handle Sign Out
   const handleSignOut = () => {
     // Clear the authentication token and user data from localStorage
@@ -124,10 +148,10 @@ const Header = () => {
       {/* Icon Day */}
       <span className="svg-color icon-set"></span>
 
-      <div className="relative">
+      <div className="relative" ref={dropdownRef}>
         {/* Dropdown Button */}
         <button
-          className="px-6 py-2.5 rounded-full bg-[#FF5700] flex items-center relative focus:outline-none"
+          className="px-6 py-2.5 rounded-full bg-main-color flex items-center relative focus:outline-none"
           onClick={toggleDropdown}
         >
           <img
@@ -188,5 +212,4 @@ const Header = () => {
     /* Header Part End */
   );
 };
-
 export default Header;

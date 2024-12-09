@@ -237,7 +237,7 @@ const Ordertable = () => {
           />
         </div>
 
-        {/* Search Product */}
+        {/* Search Product `*/}
         <div className="flex-grow relative">
           <input
             type="text"

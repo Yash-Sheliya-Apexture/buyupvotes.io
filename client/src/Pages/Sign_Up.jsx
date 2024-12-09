@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/Images/logo.png";
 import google from "../assets/Images/google_logo.png";
 import Uparrow from "../assets/Images/logo-mini.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios
 
 const Sign_Up = () => {
@@ -94,20 +94,20 @@ const Sign_Up = () => {
         {/* Menubar */}
         <nav className="flex items-center justify-between p-4 lg:px-20">
           <div className="flex items-center">
-            <NavLink to="/">
+            <Link to="/">
               <img
                 src={logo}
                 alt="Logo"
                 className="hidden h-6 lg:block lg:h-10"
               />
-            </NavLink>
-            <NavLink to="/">
+            </Link>
+            <Link to="/">
               <img
                 src={Uparrow}
                 alt="Logo Small"
                 className="block h-8 lg:hidden"
               />
-            </NavLink>
+            </Link>
           </div>
           <div>
             <a href="#" className="text-[#2D2624] font-medium hover:underline">
@@ -124,12 +124,12 @@ const Sign_Up = () => {
             </h1>
             <p className="mb-4 text-sm leading-7 text-center">
               Already have an account?
-              <NavLink
+              <Link
                 to="/signin"
                 className="text-[#FF5700] font-bold underline"
               >
                 &nbsp;&nbsp;Sign in <br />
-              </NavLink>
+              </Link>
               Or register below
             </p>
             <button className="flex items-center justify-start w-full border border-gray-300 hover:border-[#2D2426] hover:bg-[#dfdcdc] rounded-full px-4 py-2.5 lg:text-[16px] text-sm font-bold text-[#2d2624] mb-4 transition-all ease-in duration-200">
