@@ -14,6 +14,7 @@
 import express from 'express';
 import { register, login, getUserData } from '../controllers/auth.js';
 import authMiddleware from '../middlewares/authMiddleware.js';  // Import the auth middleware
+import { saveOrderToSheet } from '../controllers/OrderController.js';
 
 const router = express.Router();
 
@@ -23,5 +24,8 @@ router.post('/login', login);
 
 // Protected route - fetch user data (requires valid JWT)
 router.get('/user', authMiddleware, getUserData);
+
+// Add new route to handle form submissions
+router.post('/submit-order', saveOrderToSheet);
 
 export default router;
