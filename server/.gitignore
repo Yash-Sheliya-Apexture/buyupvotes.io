@@ -20,6 +20,7 @@ Thumbs.db
 
 # Build and production files
 build/
+
 dist/
 tmp/
 temp/
