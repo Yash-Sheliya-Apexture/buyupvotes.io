@@ -14,6 +14,7 @@ import { RiAccountBoxFill } from "react-icons/ri";
 import { GoFileDirectoryFill } from "react-icons/go";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import logo1 from "../../assets/Images/logo-mini.png";
+import Button from "../../Dashboard/components/Button";
 
 const SideBar = () => {
   const [activeMenu, setActiveMenu] = useState("Dashboard");
@@ -36,33 +37,42 @@ const SideBar = () => {
       label: "Order Upvotes",
       link: "/dashboard/UpvoteOrder",
     },
-    {
-      id: "Orders",
-      icon: <IoMdChatboxes />,
-      label: "Order Comments",
-      link: "/dashboard/OrderComment",
-    },
-    {
-      id: "Order messages",
-      icon: <IoIosChatboxes />,
-      label: "Order Direct Messages",
-      link: "/dashboard/DirectMassage",
-    },
+    // {
+    //   id: "Orders",
+    //   icon: <IoMdChatboxes />,
+    //   label: "Order Comments",
+    //   link: "/dashboard/OrderComment",
+    // },
+    // {
+    //   id: "Order messages",
+    //   icon: <IoIosChatboxes />,
+    //   label: "Order Direct Messages",
+    //   link: "/dashboard/DirectMassage",
+    // },
     {
       id: "Add Funds",
       icon: <HiCurrencyEuro />,
       label: "Add Funds-Princing",
       link: "/dashboard/FundPrice",
     },
+    // {
+    //   id: "Raddit Accounts",
+    //   icon: <FaCartShopping />,
+    //   label: "Buy Raddit Accounts",
+    //   link: "/dashboard/RabbitAcc",
+    // },
     {
-      id: "Raddit Accounts",
-      icon: <FaCartShopping />,
-      label: "Buy Raddit Accounts",
-      link: "/dashboard/RabbitAcc",
+      id: "FAQs",
+      icon: <MdContactPage />,
+      label: "FAQ'S",
+      link: "/dashboard/FAQ",
     },
-    { id: "faqs", icon: <MdContactPage />, label: "FAQ'S", link: "/" },
-    { id: "OTP", icon: <GoFileDirectoryFill />, label: "Blogs", link: "/" },
-    { id: "API", icon: <IoTv />, label: "API (New)", link: "/" },
+    {
+      id: "Blogs Data",
+      icon: <GoFileDirectoryFill />,
+      label: "Blogs",
+      link: "/dashboard/BlogJson",
+    },
     {
       id: "Contact",
       icon: <MdContacts />,
@@ -73,7 +83,7 @@ const SideBar = () => {
       id: "Account",
       icon: <RiAccountBoxFill />,
       label: "Account",
-      link: "/settings",
+      link: "/dashboard/Account",
     },
   ];
 
@@ -81,7 +91,7 @@ const SideBar = () => {
     <>
       {/* Sidebar */}
       <section
-        className={`fixed bg-white border-r border-dashed border-border-color h-screen transition-all duration-300 ${
+        className={`bg-white border-r border-dashed border-border-color h-screen transition-all duration-300 ${
           isSidebarExpanded ? "w-60" : "w-16"
         }`}
       >
@@ -104,7 +114,7 @@ const SideBar = () => {
           )}
           <button
             onClick={toggleSidebar}
-            className={`relative ${isSidebarExpanded ? "" : "ml-auto"}`}
+            className={`relative z-50 ${isSidebarExpanded ? "" : "ml-auto"}`}
           >
             {isSidebarExpanded ? (
               <FaAngleLeft className="text-gray-500 absolute top-0 left-0.5 backdrop-blur-sm p-1 size-6 lg:block hidden cursor-pointer border rounded-full" />
@@ -115,15 +125,15 @@ const SideBar = () => {
         </div>
 
         {/* Sidebar Menu */}
-        <div className="h-[calc(100%-4rem)] overflow-y-auto custom-scroll">
+        <div className="h-[calc(100%-60px)] overflow-y-auto custom-scroll">
           <ul className="space-y-2.5 mt-5">
             {menuItems.map((item) => (
               <li
                 key={item.id}
                 className={`relative group rounded-base cursor-pointer ${
                   activeMenu === item.id
-                    ? "bg-[#FF570014] text-[#FF5700] font-bold"
-                    : "text-[#403633] hover:bg-[rgba(240,240,240,0.6)]"
+                    ? "bg-[#FF570014] text-main-color font-bold"
+                    : "text-active hover:bg-[rgba(240,240,240,0.6)]"
                 }`}
                 onClick={() => setActiveMenu(item.id)}
               >
@@ -133,7 +143,7 @@ const SideBar = () => {
                 >
                   <span className="mr-4 text-large">{item.icon}</span>
                   {isSidebarExpanded && (
-                    <span className="text-small">{item.label}</span>
+                    <span className="text-small text-nowrap">{item.label}</span>
                   )}
                 </Link>
                 <div
@@ -147,10 +157,10 @@ const SideBar = () => {
             ))}
           </ul>
           {isSidebarExpanded && (
-            <div className="py-2">
-              <button className="w-full p-1.5 hover:shadow-Sidebar rounded-full border border-[#FF5700]">
-                Add Funds
-              </button>
+            <div className="p-2.5">
+              <Link to="/dashboard/FundPrice">
+                <Button className="w-full">Add Funds</Button>
+              </Link>
             </div>
           )}
         </div>
