@@ -4,7 +4,10 @@ import { FaAngleDown } from "react-icons/fa6";
 import Ordertable from "./Ordertable";
 import Breadcrumb from "../components/Breadcrumb";
 import Dropdown from "../components/Dropdown"; // Import reusable dropdown
-import axios from 'axios'; // Import Axios at the top
+import Button from "../components/Button"; // Import reusable button
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaSpinner } from "react-icons/fa";
 
 const UpvoteOrder = () => {
   // Consolidated form state
@@ -24,6 +27,7 @@ const UpvoteOrder = () => {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Access the API URL using Vite-specific syntax
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -86,8 +90,8 @@ const UpvoteOrder = () => {
 
   const validateForm = () => {
     const newErrors = {
-      service: formData.service ? "" : "Service is required",
-      speed: formData.speed ? "" : "Speed is required",
+      service: formData.service ? "" : "Service is required", // Check if service is selected
+      speed: formData.speed ? "" : "Speed is required", // Check if speed is selected
       link: formData.link
         ? validateRedditLink(formData.link)
           ? ""
@@ -102,69 +106,108 @@ const UpvoteOrder = () => {
             : ""
           : "Quantity is required",
     };
-
-    setErrors(newErrors);
-    return Object.values(newErrors).every((error) => error === "");
-  };
-
-
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
   
+    setErrors(newErrors); // Update the error state
+  
+    return Object.values(newErrors).every((error) => error === ""); // Return true if no errors
+  };
+  
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //     e.preventDefault();
+
+  //     if (validateForm()) {
+  //       // Reset form values
+  //       setFormData({
+  //         service: "",
+  //         speed: "",
+  //         link: "",
+  //         quantity: "",
+  //       });
+
+  //       // Reset errors
+  //       setErrors({
+  //         service: "",
+  //         speed: "",
+  //         link: "",
+  //         quantity: "",
+  //       });
+
+  //       try {
+  //         // Send form data to backend to save to Google Sheets
+  //         const token = localStorage.getItem("authToken"); // Example: Retrieve token from localStorage
+
+  //         const response = await fetch(`${apiUrl}/auth/submit-order`, {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`, // Add the token to the header
+  //           },
+  //           body: JSON.stringify(formData),
+  //         });
+
+  //         const data = await response.json();
+  //         if (response.ok) {
+  //           setSuccessMessage(data.message); // Set success message
+  //         } else {
+  //           setSuccessMessage("There was an error submitting the order.");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error submitting order:", error);
+  //         setSuccessMessage("There was an error submitting the order.");
+  //       }
+
+  //       // Clear success message after a few seconds
+  //       setTimeout(() => setSuccessMessage(""), 2000);
+  //     }
+  // };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (validateForm()) {
-      // Reset form values
+      setLoading(true); // Show loader
+
+      const token = localStorage.getItem("authToken");
+
+      try {
+        const response = await fetch(`${apiUrl}/auth/submit-order`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          toast.success(data.message || "Order submitted successfully!");
+        } else {
+          toast.error(data.message || "There was an error submitting the order.");
+        }
+      } catch (error) {
+        console.error("Error submitting order:", error);
+        toast.error("An error occurred. Please try again later.");
+      } finally {
+        setLoading(false); // Hide loader after request
+      }
+
+      // Reset the form after submission
       setFormData({
         service: "",
         speed: "",
         link: "",
         quantity: "",
       });
-  
-      // Reset errors
-      setErrors({
-        service: "",
-        speed: "",
-        link: "",
-        quantity: "",
-      });
-  
-      try {
-        // Bearer token for authentication
-        const token = localStorage.getItem('authToken');  // Assuming your token is saved under 'authToken'
-  
-        // Send form data to backend to save to Google Sheets without userId
-        const response = await axios.post(
-          `http://localhost:5000/api/auth/submit-order`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`, // Add the Authorization header
-            },
-          }
-        );
-  
-        const data = response.data;
-        if (response.status === 200) {
-          setSuccessMessage(data.message); // Set success message
-        } else {
-          setSuccessMessage("There was an error submitting the order.");
-        }
-      } catch (error) {
-        console.error('Error submitting order:', error);
-        setSuccessMessage("There was an error submitting the order.");
-      }
-  
-      // Clear success message after a few seconds
-      setTimeout(() => setSuccessMessage(""), 2000);
     }
-};
+  };
 
 
-  
-  
-  
 
   const services = [
     "Post upvotes",
@@ -190,7 +233,7 @@ const handleSubmit = async (e) => {
   ];
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       {/* Form Content */}
       <div className="px-6">
         <h1 className="mb-2 font-bold text-sub-color text-basic">
@@ -201,129 +244,151 @@ const handleSubmit = async (e) => {
         </div>
       </div>
 
-      
-        <div className="flex w-full gap-10 mt-6">
-          <div className="w-full md:w-[50%] border rounded-2xl p-10">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Service Dropdown */}
-              <Dropdown
-                options={services}
-                selectedValue={formData.service}
-                onSelect={(value) => setFormData({ ...formData, service: value })}
-                placeholder="Service"
-                error={errors.service}
+
+      <div className="flex w-full gap-10 mt-6">
+        <div className="w-full md:w-[50%] border rounded-2xl p-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Service Dropdown */}
+            <Dropdown
+              options={services}
+              selectedValue={formData.service}
+              onSelect={(value) => {
+                setFormData({ ...formData, service: value });
+
+                // Clear the error if the value is valid (non-empty)
+                if (value) {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    service: "", // Clear the 'service' error when a valid option is selected
+                  }));
+                }
+              }}
+              placeholder="Service"
+              error={errors.service}
+            />
+
+            {/* Link Input */}
+            <div>
+              <input
+                type="text"
+                name="link"
+                placeholder="Link"
+                value={formData.link}
+                onChange={handleInputChange}
+                className={`w-full border rounded-full p-2.5 ${errors.link ? "border-red-500" : "border-gray-300"
+                  } text-sub-color placeholder:text-sub-color hover:border-black transition-all ease-in duration-150`}
               />
-
-              {/* Link Input */}
-              <div>
-                <input
-                  type="text"
-                  name="link"
-                  placeholder="Link"
-                  value={formData.link}
-                  onChange={handleInputChange}
-                  className={`w-full border rounded-full p-2.5 ${errors.link ? "border-red-500" : "border-gray-300"
-                    } text-sub-color placeholder:text-sub-color hover:border-black transition-all ease-in duration-150`}
-                />
-                {errors.link && (
-                  <p className="text-sm text-red-500">{errors.link}</p>
-                )}
-              </div>
-
-              {/* Quantity Input */}
-              <div>
-                <input
-                  type="text"
-                  name="quantity"
-                  placeholder="Quantity"
-                  value={formData.quantity}
-                  onChange={handleInputChange}
-                  className={`w-full border rounded-full p-2.5 ${errors.quantity ? "border-red-500" : "border-gray-300"
-                    } text-sub-color placeholder:text-sub-color hover:border-black transition-all ease-in duration-150`}
-                />
-                {errors.quantity && (
-                  <p className="text-sm text-red-500">{errors.quantity}</p>
-                )}
-              </div>
-
-              {/* Speed Dropdown */}
-              <Dropdown
-                options={speeds}
-                selectedValue={formData.speed}
-                onSelect={(value) => setFormData({ ...formData, speed: value })}
-                placeholder="Select Delivery Speed"
-                error={errors.speed}
-              />
-
-              {/* Success Message */}
-              {successMessage && (
-                <p className="font-medium text-center text-green-500">
-                  {successMessage}
-                </p>
+              {errors.link && (
+                <p className="text-sm text-red-500">{errors.link}</p>
               )}
+            </div>
 
-              {/* Submit Button */}
-              <div className="flex justify-center space-x-4">
-                <button
-                  type="submit"
-                  className="border border-main-color text-main-color px-14 py-2.5 hover:shadow-btnShadow transition-all duration-150 ease-in text-[14px] rounded-full font-bold"
-                >
-                  Submit Order
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* Quantity Input */}
+            <div>
+              <input
+                type="text"
+                name="quantity"
+                placeholder="Quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+                className={`w-full border rounded-full p-2.5 ${errors.quantity ? "border-red-500" : "border-gray-300"
+                  } text-sub-color placeholder:text-sub-color hover:border-black transition-all ease-in duration-150`}
+              />
+              {errors.quantity && (
+                <p className="text-sm text-red-500">{errors.quantity}</p>
+              )}
+            </div>
 
-          {/* Right Section */}
-          <div className="w-full md:w-[50%] border rounded-2xl p-10">
-            <p className="text-[16px] font-medium underline underline-offset-1 text-[#2D2624] mb-2">
-              Upvotes & downvotes:
-            </p>
-            <div className="space-y-4 text-gray-700">
-              <div className="flex space-x-20 text-[#2D2624]">
-                <p>
-                  Minimum quantity: <b className="font-black">5</b>
-                </p>
-                <p>
-                  Maximum quantity: <b className="font-black">1000</b>
-                </p>
-              </div>
-              <div className="flex items-center justify-center">
-                <hr className="w-[80%]" />
-              </div>
-              <ul className="space-y-1 list-disc list-inside">
-                <li className="text-[#2D2624] font-black text-[14px]">
-                  Mobile links are now accepted
-                </li>
-                <li className="text-[#2d2624] font-medium text-[14px]">
-                  Links can only contain English characters
-                </li>
-              </ul>
-              <div className="flex items-center justify-center">
-                <hr className="w-[80%]" />
-              </div>
-              <p className="text-sm text-[#2D2624] font-medium leading-6">
-                Our upvotes/downvotes are the same as organic
-                upvotes/downvotes and will not get your account banned.
-                Unusual activity that results in users or moderators reporting
-                your account can still get you banned. Please choose your
-                order's upvote/downvote quantity wisely so as not to arouse
-                any suspicion.
+            {/* Speed Dropdown */}
+            <Dropdown
+              options={speeds}
+              selectedValue={formData.speed}
+              onSelect={(value) => {
+                setFormData({ ...formData, speed: value });
+
+                // Clear the error if the value is valid (non-empty)
+                if (value) {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    speed: "", // Clear the 'speed' error when a valid option is selected
+                  }));
+                }
+              }}
+              placeholder="Select Delivery Speed"
+              error={errors.speed}
+            />
+
+            {/* Success Message */}
+            {successMessage && (
+              <p className="font-medium text-center text-green-500">
+                {successMessage}
               </p>
-              <p className="text-[14px] text-[#2D2624] font-semibold">
-                *Upvotes on posts/comments older than 24 hours are not
-                guaranteed to go through. Downvotes are similarly not
-                guaranteed regardless of post/comment age.
+            )}
+
+            {/* Submit Button */}
+            <div className="flex justify-center space-x-4">
+              {loading ? (
+                <div className="flex items-center">
+                  <FaSpinner className="text-lg animate-spin" />
+                </div>
+              ) : (
+                <Button type="submit" onClick={handleSubmit}>
+                  Submit Order
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
+
+        {/* Right Section */}
+        <div className="w-full md:w-[50%] border rounded-2xl p-10">
+          <p className="text-[16px] font-medium underline underline-offset-1 text-[#2D2624] mb-2">
+            Upvotes & downvotes:
+          </p>
+          <div className="space-y-4 text-gray-700">
+            <div className="flex space-x-20 text-[#2D2624]">
+              <p>
+                Minimum quantity: <b className="font-black">5</b>
+              </p>
+              <p>
+                Maximum quantity: <b className="font-black">1000</b>
               </p>
             </div>
+            <div className="flex items-center justify-center">
+              <hr className="w-[80%]" />
+            </div>
+            <ul className="space-y-1 list-disc list-inside">
+              <li className="text-[#2D2624] font-black text-[14px]">
+                Mobile links are now accepted
+              </li>
+              <li className="text-[#2d2624] font-medium text-[14px]">
+                Links can only contain English characters
+              </li>
+            </ul>
+            <div className="flex items-center justify-center">
+              <hr className="w-[80%]" />
+            </div>
+            <p className="text-sm text-[#2D2624] font-medium leading-6">
+              Our upvotes/downvotes are the same as organic upvotes/downvotes
+              and will not get your account banned. Unusual activity that
+              results in users or moderators reporting your account can still
+              get you banned. Please choose your order's upvote/downvote
+              quantity wisely so as not to arouse any suspicion.
+            </p>
+            <p className="text-[14px] text-[#2D2624] font-semibold">
+              *Upvotes on posts/comments older than 24 hours are not
+              guaranteed to go through. Downvotes are similarly not guaranteed
+              regardless of post/comment age.
+            </p>
           </div>
         </div>
+      </div>
 
       <div className="my-5">
         <p className="text-center underline text-light-red underline-offset-1 text-[18px]">
           Due to Reddit's updated security measures, upvotes on certain
-          subreddits are temporarily unavailable. If affected, the order will
-          be canceled and refunded.
+          subreddits are temporarily unavailable. If affected, the order will be
+          canceled and refunded.
         </p>
       </div>
 
