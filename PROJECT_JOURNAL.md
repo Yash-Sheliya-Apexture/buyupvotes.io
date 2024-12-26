@@ -11,35 +11,41 @@ BuyUpVotes.io is a web application built using React.js for the frontend and Nod
 ```
 client/
 ├── src/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── Components/
+│   │   ├── Contact.jsx
+│   │   ├── Currency.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── HeroSection.jsx
+│   │   └── Pricing.jsx
 │   ├── Dashboard/
 │   │   ├── components/
-│   │   │   └── Dashboard_header.jsx    # Dashboard header component with user profile
+│   │   ├── layout/
 │   │   └── pages/
-│   │       ├── ContactUs.jsx           # Contact page
-│   │       ├── RabbitAccount.jsx       # User account management
-│   │       ├── UpvoteOrder.jsx         # Order placement page
-│   │       └── ordertable.jsx          # Order history/table view
+│   ├── Pages/
+│   ├── api/
+│   ├── assets/
+│   ├── auth/
+│   ├── index.css
+│   ├── main.jsx
+│   ├── routes/
+│   └── utils/
 ```
 
 ### Backend (Node.js/Express)
 ```
 server/
-├── app.js                 # Express application setup with CORS
-├── server.js             # Server entry point
-├── .env                  # Environment variables
+├── app.js
+├── server.js
+├── .env
 ├── config/
-│   └── db.js            # MongoDB connection setup
 ├── controllers/
-│   ├── auth.js          # Authentication controllers
-│   └── OrderController.js # Order management
 ├── middlewares/
-│   └── authMiddleware.js # JWT authentication middleware
 ├── models/
-│   └── User.js          # User model schema
 ├── routes/
-│   └── auth.js          # Authentication routes
 └── utils/
-    └── googleSheets.js  # Google Sheets integration
 ```
 
 ## Key Features

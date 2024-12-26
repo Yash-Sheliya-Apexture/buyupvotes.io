@@ -1,23 +1,19 @@
 import React from "react";
-import Sidebar1 from "../components/Sidebar1";
-import Dashboard_header from "../components/Dashboard_header";
-import { Outlet } from "react-router-dom"; // Used to render nested routes
+import Sidebar from "../components/Sidebar";
+import Dashboard_header from "../components/dashboard_header";
+import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   return (
     <div className="flex h-screen">
-      {/* Left Sidebar */}
-      <Sidebar1 />
-      {/* Right Content Area */}
-      <div className="flex flex-col flex-1">
-        {/* Dashboard Header */}
-        <Dashboard_header />
-        
-        {/* Main content area, where nested routes will be displayed */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <Outlet />
-          {/* Outlet will render the nested route components */}
-        </main>
+      <Sidebar />
+      <div className="flex flex-wrap items-start flex-1 overflow-y-auto">
+        <div className="w-full">
+          <Dashboard_header />
+          <main className="flex-1 p-4 overflow-y-auto">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );
