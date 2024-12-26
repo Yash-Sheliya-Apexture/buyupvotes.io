@@ -3,13 +3,15 @@ import girl from "../../assets/Images/girl.png";
 import Slider from "./Slider";
 import { Link } from "react-router-dom";
 import axios from "axios"; // Make sure axios is imported
+import Button from "../components/Button";
 
-const HeroSecrtion = () => {
+const HeroSection = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(null); // Error state
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Fetch user data
+
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("authToken");
@@ -35,40 +37,44 @@ const HeroSecrtion = () => {
     };
     fetchUserData();
   }, [API_BASE_URL]);
-
   return (
     <>
-      <div className="flex gap-6">
-        <div className="relative flex w-2/3 h-auto px-4 py-10 overflow-hidden bg-light-brown rounded-large">
-          <div className="p-6">
-            {loading ? (
-              <h2 className="font-bold text-dark-green text-large">Loading...</h2>
-            ) : error ? (
-              <h2 className="font-bold text-red-500 text-large">{error}</h2>
-            ) : user ? (
-              <h2 className="flex items-center mb-2 font-black leading-10 text-large text-dark-green">
-                Welcome back, <br /> {user.firstName} 👋
-              </h2>
-            ) : (
-              <h2 className="font-bold text-dark-green text-large">
-                Welcome back, Guest 👋
-              </h2>
-            )}
-            <p className="text-[#477677] font-semibold mb-6 max-w-[300px]">
-              You have 100 upvotes remaining on your balance. Continue boosting
-              your Reddit experience by placing an order!
-            </p>
-            <Link
-              to="UpvoteOrder"
-              className="px-6 py-1.5 bg-main-color text-white font-bold rounded-full"
-            >
-              Order Now
-            </Link>
+      <div className="flex flex-col items-center gap-4 lg:flex-row">
+        {/* HeroCard Components */}
+        <div className="relative flex flex-col w-full p-4 overflow-hidden lg:flex-row lg:w-full bg-light-brown rounded-small lg:p-8">
+          {/* Left Side - Text */}
+          <div className="flex justify-center w-full lg:w-1/2">
+            <div className="mb-20 text-center space-y-5 lg:text-start max-w-[320px]">
+              {loading ? (
+                <h2 className="font-bold text-dark-green lg:text-large text-[26px]">
+                  Loading...
+                </h2>
+              ) : error ? (
+                <h2 className="text-4xl font-bold text-red-500 lg:text-large text-[26px]">{error}</h2>
+              ) : user ? (
+                <h2 className="flex items-center mb-2 font-black leading-10 text-dark-green lg:text-large text-[26px]">
+                  Welcome back, <br /> {user.firstName} 👋
+                </h2>
+              ) : (
+                <h2 className="font-bold text-dark-green lg:text-large text-[26px]">
+                  Welcome back, Guest 👋
+                </h2>
+              )}
+              <p className="text-[#477677] font-semibold pb-6 max-w-[350px]">
+                You have 100 upvotes remaining on your balance. Continue
+                boosting your Reddit experience by placing an order!
+              </p>
+              <Link to="/dashboard/UpvoteOrder">
+                <Button>Order Now</Button>
+              </Link>
+            </div>
           </div>
-          <div className="flex">
-            <div className="absolute right-0 top-10">
+
+          {/* Right Side - Image */}
+          <div className="flex items-center justify-center w-full lg:w-1/2">
+            <div className="relative flex items-center justify-center w-auto">
               <svg
-                className="object-cover w-full h-full"
+                className="object-cover lg:h-64 h-52"
                 viewBox="0 0 480 360"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -290,23 +296,18 @@ const HeroSecrtion = () => {
                     <stop offset="1" stopColor="#FF4500"></stop>
                   </linearGradient>
                 </defs>
-                <image
-                  href="/assets/illustrations/characters/character_2.png"
-                  height="300"
-                  x="312"
-                  y="30"
-                ></image>
               </svg>
               <img
                 src={girl}
                 alt="Girl Image"
-                className="absolute top-2 h-52 right-6"
+                className="absolute top-0 h-52 right-2 md:relative md:top-auto md:right-1/4"
               />
             </div>
           </div>
         </div>
 
-        <div className="w-1/3">
+        {/* Slider Components */}
+        <div className="w-full lg:w-1/3">
           <Slider />
         </div>
       </div>
@@ -314,4 +315,4 @@ const HeroSecrtion = () => {
   );
 };
 
-export default HeroSecrtion;
+export default HeroSection;
