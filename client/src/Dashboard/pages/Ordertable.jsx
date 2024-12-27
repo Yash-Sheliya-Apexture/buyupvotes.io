@@ -1011,6 +1011,7 @@ import { useRef } from "react";
 import InputField from "../components/InputField";
 import { FaPlus } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -1019,8 +1020,8 @@ const Ordertable = () => {
   const [tableData, setTableData] = useState([]); // state for table data
   const [searchQuery, setSearchQuery] = useState(""); // New search state
   const [debouncedQuery, setDebouncedQuery] = useState(""); // For debounce effect
-  const [startDate, setStartDate] = useState(""); // Track start date
-  const [endDate, setEndDate] = useState(""); // Track end date
+  const [startDate, setStartDate] = useState(null); // Track start date
+  const [endDate, setEndDate] = useState(null); // Track end date
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false); // Track loading state
@@ -1230,7 +1231,12 @@ const Ordertable = () => {
       colors: "bg-light-orange text-white",
     },
   ];
-
+  const handleClearStatus = () => {
+    setActiveTab("All");
+    const allTabIndex = tabs.findIndex((tab) => tab.label === "All");
+    updateIndicator(allTabIndex); // Update indicator for the "All" tab
+  };
+  
   return (
     <div className="mb-4 border rounded-small">
       <h1 className="p-4 font-semibold text-sub-color lg:text-basic">
@@ -1238,7 +1244,7 @@ const Ordertable = () => {
       </h1>
 
       {/* Tabs table */}
-      <div className="relative flex items-center border rounded-sm border-gray-300/50 shadow-main ">
+      <div className="relative flex items-center border rounded-sm border-gray-300/50 shadow-main">
         {/* Left Icon */}
         <button
           onClick={scrollLeft}
@@ -1256,7 +1262,7 @@ const Ordertable = () => {
           >
             {/* Active Tab Indicator */}
             <div
-              className="absolute bottom-0 h-0.5 bg-main-color transition-all duration-300"
+              className="absolute bottom-0 h-0.5 bg-main-color transition-all duration-300 w-[calc(100%-40px)]"
               style={{
                 width: `${indicatorWidth}px`,
                 left: `${indicatorLeft}px`,
@@ -1293,9 +1299,9 @@ const Ordertable = () => {
       </div>
 
       {/* Filter Section */}
-      <div className="flex flex-wrap items-center w-full gap-3 p-2 py-3 border border-gray-border">
+      <div className="flex flex-wrap w-full gap-4 p-3 border lg:py-4 border-gray-border">
         {/* Start Date */}
-        <div className="w-full gap-2 lg:w-auto">
+        <div className="w-full lg:w-auto">
           <InputField
             name="Date"
             type="date"
@@ -1305,7 +1311,7 @@ const Ordertable = () => {
         </div>
 
         {/* End Date */}
-        <div className="w-full gap-2 lg:w-auto">
+        <div className="w-full lg:w-auto">
           <InputField
             name="Date"
             type="date"
@@ -1319,11 +1325,11 @@ const Ordertable = () => {
           <InputField
             name="Search"
             type="text"
-            placeholder="search by subreddit names..."
+            placeholder="Search by subreddit name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <FiSearch className="absolute top-3 right-3 size-5 text-sub-color" />
+          <FiSearch className="absolute top-3.5 right-3 size-5 text-light-gray" />
         </div>
       </div>
 
@@ -1334,9 +1340,11 @@ const Ordertable = () => {
             <div className="flex items-center p-2 space-x-2 border border-dashed rounded-medium">
               <h1 className="font-medium text-sub-color">Status : </h1>
               <button
-                onClick={() => handleTabChange("All")} // Set active tab to "All" on click
-                className="flex items-center px-2 py-1 text-xs text-white transition-all duration-300 ease-in rounded-full bg-sub-color hover:bg-slate-500/50"
-              >
+        onClick={() => {
+          handleTabChange("All", 0); // Reset active tab to "All" and update the indicator
+        }}
+        className="flex items-center px-2 py-1 text-xs text-white transition-all duration-300 ease-in rounded-full bg-sub-color hover:bg-slate-500/50"
+      >
                 {activeTab}
                 {/* Close Icon */}
                 <div className="flex items-center justify-center ml-2 bg-white rounded-full size-5">
@@ -1349,7 +1357,7 @@ const Ordertable = () => {
         {activeTab !== "All" && (
           <div
             className="flex items-center cursor-pointer"
-            onClick={() => setActiveTab("All")}
+            onClick={handleClearStatus}
           >
             <FaTrashAlt className="size-5 text-light-orange" />
             <h1 className="ml-2 font-bold text-small text-light-orange">
