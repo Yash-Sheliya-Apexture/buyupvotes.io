@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/Images/logo.png";
+import logo from "../../assets/Images/Logo.png";
 import { Link, useLocation } from "react-router-dom"; // Import useLocation
 import { BsBarChartFill } from "react-icons/bs";
 import { PiSpeedometerFill } from "react-icons/pi";
@@ -58,60 +58,59 @@ const SideBar = () => {
       id: "Order Upvotes",
       icon: <BsBarChartFill />,
       label: "Order Upvotes",
-      link: "/dashboard/UpvoteOrder",
+      link: "/dashboard/upvoteorder",
     },
     {
       id: "Add Funds",
       icon: <HiCurrencyEuro />,
       label: "Add Funds-Princing",
-      link: "/dashboard/FundPrice",
+      link: "/dashboard/fundprice",
     },
     {
       id: "FAQs",
       icon: <MdContactPage />,
       label: "FAQ'S",
-      link: "/dashboard/FAQ",
+      link: "/dashboard/faqs",
     },
     {
       id: "Blogs Data",
       icon: <GoFileDirectoryFill />,
       label: "Blogs",
-      link: "/dashboard/Blog",
+      link: "/dashboard/post",
     },
     {
       id: "Contact",
       icon: <MdContacts />,
       label: "Contact Us",
-      link: "/dashboard/ContactUs",
+      link: "/dashboard/contactus",
     },
     {
       id: "Account",
       icon: <RiAccountBoxFill />,
       label: "Account",
-      link: "/dashboard/Account/",
+      link: "/dashboard/account/",
     },
   ];
 
   return (
     <>
       <button
-        className="absolute top-4 left-4 z-50 xl:hidden rounded-full"
+        className="absolute z-50 rounded-full top-5 left-4 lg:hidden"
         onClick={toggleSidebarVisibility}
       >
-        <CgMenuRightAlt className="text-main-color size-8 rounded-md" />
+        <CgMenuRightAlt className="rounded-md text-main-color size-8" />
       </button>
 
       {isSidebarVisible && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-45 z-40 backdrop-blur-sm xl:hidden"
+          className="fixed inset-0 z-40 bg-black bg-opacity-45 backdrop-blur-sm xl:hidden"
           onClick={toggleSidebarVisibility}
         ></div>
       )}
 
       <section
-        className={`fixed xl:relative bg-white border-r z-50 border-dashed border-border-color h-screen transition-all duration-300 ${
-          isSidebarExpanded ? "w-60" : "w-16"
-        } ${isSidebarVisible ? "left-0" : "-left-60 xl:left-0"}`}
+        className={`fixed xl:relative bg-white border-r z-50 border-dashed border-border-color h-screen transition-all duration-300 ${isSidebarExpanded ? "w-60" : "w-16"
+          } ${isSidebarVisible ? "left-0" : "-left-60 xl:left-0"}`}
       >
         <div className="flex items-center justify-between p-3.5">
           {isSidebarExpanded ? (
@@ -145,14 +144,14 @@ const SideBar = () => {
 
         <div className="h-[calc(100%-4rem)] overflow-y-auto custom-scroll">
           <ul className="space-y-2.5 mt-5">
+            {/* Dashboard Tab */}
             {menuItems.map((item) => (
               <li
                 key={item.id}
-                className={`relative group cursor-pointer font-semibold ${
-                  activeMenu === item.id
+                className={`relative group cursor-pointer font-semibold ${activeMenu === item.id
                     ? "bg-[#ff550034] text-main-color"
                     : "text-active hover:bg-[#ff550034] transition-all ease-in duration-150"
-                }`}
+                  }`}
                 onClick={() => handleMenuItemClick(item.id)}
               >
                 <Link
@@ -166,41 +165,32 @@ const SideBar = () => {
                     <span className="text-small text-nowrap">{item.label}</span>
                   )}
                 </Link>
+                {/* Tooltip */}
                 {!isSidebarExpanded && (
                   <Tooltip
                     id={item.id}
+                    className="tooltip-custom" // Apply custom animation classs
                     style={{
-                      position: "fixed", // Ensure the tooltip stays outside
-                      transform: "translateX(0px)", // Move slightly to the right
+                      position: "fixed",
                       zIndex: 10,
-                      backgroundColor: "#ff5700", // Custom background color
-                      fontSize: "14px", // Custom font size
-                      fontWeight: "bold", // Custom font weight
-                      color: "white", // Text color
-                      borderRadius: "5px", // Rounded corner
-                      textTransform: "capitalize",
                     }}
                   />
                 )}
                 <div
                   className={`absolute left-0 top-0 h-full w-1.5
-                     ${
-                       activeMenu === item.id
-                         ? "bg-main-color scale-y-100"
-                         : "bg-transparent scale-y-0"
-                     } transition-all duration-300`}
+                     ${activeMenu === item.id
+                      ? "bg-main-color scale-y-100"
+                      : "bg-transparent scale-y-0"
+                    } transition-all duration-300`}
                 ></div>
               </li>
             ))}
           </ul>
           {isSidebarExpanded && (
-            <div className="p-2 mt-4">
+            <div className="p-2 mt-4 ">
               <Link
-                to="/dashboard/FundPrice"
-                className="mybtn"
-                style={{
-                  padding: "8px 40px", // Custom padding
-                }}
+                to="/dashboard/fundprice"
+                className="block w-full text-center mybtn"
               >
                 Add Funds
               </Link>

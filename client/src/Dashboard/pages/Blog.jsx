@@ -11,6 +11,13 @@ const Blog = () => {
 
   const filterOptions = ["Latest", "Popular", "Oldest"];
 
+  const sanitizeTitle = (title) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  };
+
   // Fetch blogs data
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data.json`)
@@ -36,7 +43,7 @@ const Blog = () => {
   });
 
   return (
-    <div className="lg:container mx-auto">
+    <div className="container mx-auto">
       {/* Blog Logo */}
       <div className="flex justify-center mb-8">
         <img src={logo} alt="Blog_logo" className="h-10" />
@@ -47,32 +54,39 @@ const Blog = () => {
         <h1 className="font-medium text-sub-color lg:text-base">
           Interested in guest posting on our blog? Please{" "}
           <span className="font-medium underline cursor-pointer text-main-color underline-offset-1">
-            <Link to="/dashboard/ContactUs">contact us</Link>
+            <Link to="/dashboard/contactus">contact us</Link>
           </span>{" "}
           we'd love to hear from you!
         </h1>
 
         {/* Dropdown Modify */}
-        <div className="flex items-center py-2 lg:w-1/4">
+        <div className="flex items-center py-2 lg:w-1/4 z-20">
           <span className="mr-2 text-nowrap text-sub-color font-medium">
             Sort By:
           </span>
           <Dropdown
+            type="text"
             options={filterOptions}
             selectedValue={selectedFilter}
             onSelect={(value) => setSelectedFilter(value)} // Update filter state
-            className="w-52"
+            className="w-full"
+            placeholder="Select Feature:"
+            dropdownPadding="p-3"
+            listPadding="p-2 my-1.5"
+            
           />
         </div>
       </div>
 
       {/* Blog Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {sortedBlogs.map((blog) => (
+      <div className="flex flex-wrap gap-4 mb-5">
+        {sortedBlogs.map((blog, index) => (
           <Link
             key={blog.id}
-            to={`/dashboard/Blog/${blog.id}`}
-            className="bg-white text-sub-color relative shadow-main z-0 cursor-pointer overflow-hidden rounded-small"
+            to={`${sanitizeTitle(blog.title)}`}
+            className={`bg-white text-sub-color relative shadow-main rounded-small z-0 cursor-pointer overflow-hidden ${
+              index === 0 ? "lg:w-[550px] w-full z-10" : "flex-0 md:flex-1" // flex-1 for remaining blogs
+            }`}
           >
             <div className="relative">
               <div className="absolute z-10 w-20 text-white h-9 left-2 -bottom-4">

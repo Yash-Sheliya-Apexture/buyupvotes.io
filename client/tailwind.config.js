@@ -25,7 +25,7 @@ export default {
         "sub-color": "#2D2624",
         "gray-border": "#f3f4f6",
         "side-color": "#FF570014",
-        active: "#403633",
+        "active": "#403633",
         "background-active": "#f0f0f099",
         "light-brown": "#FDE6D9",
         "dark-green": "#004B50",
@@ -39,7 +39,7 @@ export default {
         "brown-hover": "#919eab14",
       },
       lineHeight: {
-        20: "60px",
+        20: "70px",
       },
       borderWidth: {
         1.5: "1.5px",
