@@ -4,12 +4,15 @@ const InputField = ({
   type = "text",
   name,
   placeholder = "",
-  value,
+  value = "",
   onChange,
+  onBlur,
   error = "",
   disabled = false,
-  isEditing = true, // New prop for editing state
+  isEditing = true,
   className = "",
+  rows,
+  cols,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -18,7 +21,7 @@ const InputField = ({
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
-        setIsFocused(false); // Close the floating label if clicked outside
+        setIsFocused(false);
       }
     };
 
@@ -47,16 +50,19 @@ const InputField = ({
         id={name}
         type={type}
         name={name}
-        value={value}
+        value={value || ""}
         onChange={onChange}
+        rows={rows}
+        cols={cols}
         onFocus={() => setIsFocused(true)}
+        onBlur={onBlur}
         disabled={!isEditing || disabled}
         className={`w-full border rounded-full p-2.5 ${
           error ? "border-red-500" : "border-gray-300"
         } placeholder-transparent hover:border-black transition-all ease-in duration-150 ${
           !isEditing || disabled ? "bg-gray-200 opacity-50" : ""
         } ${className}`}
-        placeholder={placeholder} // Placeholder is kept transparent to support floating label
+        placeholder={placeholder}
         {...rest}
       />
 

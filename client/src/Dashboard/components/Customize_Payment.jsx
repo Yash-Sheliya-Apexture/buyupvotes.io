@@ -5,7 +5,7 @@ import payment_logos from "../../assets/Images/payment_logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CustomizePayment = () => {
+const Customize_Payment = () => {
   const [selectedTab, setSelectedTab] = useState("creditCard");
   const [creditCardDeposit, setCreditCardDeposit] = useState("");
   const [cryptoDeposit, setCryptoDeposit] = useState("");
@@ -90,7 +90,7 @@ const CustomizePayment = () => {
   return (
     <>
       {/* Tabs Section */}
-      <div className="my-2">
+      <div className="my-6">
         <h1 className="text-center text-para-color lg:text-basic text-base font-medium">
           Customize your{" "}
           <span className="text-main-color font-bold">payment</span> below :
@@ -282,4 +282,4 @@ const CustomizePayment = () => {
   );
 };
 
-export default CustomizePayment;
+export default Customize_Payment;
